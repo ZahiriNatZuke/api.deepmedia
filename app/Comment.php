@@ -11,11 +11,6 @@ class Comment extends Model
 
     protected $table = 'comments';
     protected $primaryKey = 'id';
-    protected $attributes = [
-        'body',
-        'created_at',
-        'updated_at'
-    ];
 
     /**
      * The attributes that are mass assignable.

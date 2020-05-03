@@ -16,13 +16,13 @@ class CreateVideosTable extends Migration
         Schema::create('videos', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('channel_id');
-            $table->string('title');
+            $table->string('title')->unique();
             $table->string('description');
             $table->enum('state', ['Public', 'Private']);
             $table->enum('category', ['Gameplay', 'Musical', 'Joke', 'Interesting', 'Tech', 'Tutorial']);
             $table->string('poster');
             $table->string('video');
-            $table->integer('views_count');
+            $table->integer('views_count')->default(0);
             $table->timestamps();
             $table->index('channel_id');
             $table->index('title');

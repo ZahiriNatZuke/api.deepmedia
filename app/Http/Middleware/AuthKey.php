@@ -17,9 +17,9 @@ class AuthKey
     public function handle($request, Closure $next)
     {
         $token = $request->header('X-API-KEY');
-        if (!$token == 'ABCDEFGHIJK') {
-            return response(['message' => 'App Key Not Found'], 401);
-        }
+//        if (!$token == 'ABCDEFGHIJK') {
+//            return response(['message' => 'App Key Not Found'], 401);
+//        }
         return $next($request);
     }
 }

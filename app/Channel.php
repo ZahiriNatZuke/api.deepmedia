@@ -11,11 +11,6 @@ class Channel extends Model
 
     protected $table = 'channels';
     protected $primaryKey = 'id';
-    protected $attributes = [
-        'avatar',
-        'created_at',
-        'updated_at'
-    ];
 
     /**
      * The attributes that are mass assignable.
@@ -77,7 +72,7 @@ class Channel extends Model
 
     public function videos()
     {
-        return $this->hasMany(Video::class)->orderBy('created_at', 'DESC');
+        return $this->hasMany(Video::class)->orderByDesc('created_at');
     }
 
 }

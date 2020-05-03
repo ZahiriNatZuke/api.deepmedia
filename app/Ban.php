@@ -11,11 +11,6 @@ class Ban extends Model
 
     protected $table = 'bans';
     protected $primaryKey = 'id';
-    protected $attributes = [
-        'ip_list',
-        'created_at',
-        'updated_at'
-    ];
 
     /**
      * The attributes that are mass assignable.

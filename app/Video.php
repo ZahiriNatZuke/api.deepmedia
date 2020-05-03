@@ -11,17 +11,6 @@ class Video extends Model
 
     protected $table = 'videos';
     protected $primaryKey = 'id';
-    protected $attributes = [
-        'title',
-        'description',
-        'state',
-        'category',
-        'poster',
-        'video',
-        'views_count',
-        'created_at',
-        'updated_at'
-    ];
 
     /**
      * The attributes that are mass assignable.
@@ -68,7 +57,7 @@ class Video extends Model
 
     public function comments()
     {
-        return $this->hasMany(Comment::class)->orderBy('created_at', 'DESC');
+        return $this->hasMany(Comment::class)->orderByDesc('created_at');
     }
 
     public function countLikes()

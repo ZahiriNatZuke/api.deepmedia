@@ -14,8 +14,7 @@
         "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "^7.0",
         "laravel/passport": "^8.4",
-        "laravel/tinker": "^2.0",
-        "paragonie/random_compat": "^9.99"
+        "laravel/tinker": "^2.0"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

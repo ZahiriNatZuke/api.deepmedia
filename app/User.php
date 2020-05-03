@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -12,18 +11,6 @@ class User extends Authenticatable
 
     protected $table = 'users';
     protected $primaryKey = 'id';
-    protected $attributes = [
-        'fullname',
-        'username',
-        'email',
-        'password',
-        'ip_list',
-        'password',
-        'remember_token',
-        'created_at',
-        'updated_at',
-        'email_verified_at'
-    ];
 
     /**
      * The attributes that are mass assignable.

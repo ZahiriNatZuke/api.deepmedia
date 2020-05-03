@@ -3,62 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Comment;
-use Illuminate\Http\Request;
+use App\Http\Requests\CommentRequest;
+use App\Video;
+use Illuminate\Http\Response;
 
 class CommentController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Video $video
+     * @param CommentRequest $request
+     * @return Response
      */
-    public function store(Request $request)
+    public function store(Video $video, CommentRequest $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Comment  $comment
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Comment $comment)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Comment  $comment
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Comment $comment)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Comment  $comment
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Comment $comment)
-    {
-        //
+        $fromRequestComment = $request->all();
+        $newComment = new Comment($fromRequestComment);
+        $newComment->user_id = 1;
+        $video->comments()->save($newComment);
+        return response([
+            'message' => 'Comment Stored for Video #' . $video->id,
+            'comment' => $newComment
+        ], 200);
     }
 }
