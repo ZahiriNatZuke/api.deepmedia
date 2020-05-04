@@ -1,9 +1,5 @@
 <?php
 
-use App\User;
-use Illuminate\Database\Eloquent\Factory;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,10 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 /*RESOURCES ROUTES FOR VIDEOS*/
 Route::get('video/{video}', 'VideoController@show')->name('videoById');
 Route::get('video/by/{category}', 'VideoController@index')->name('videoByCategory');
@@ -32,4 +24,8 @@ Route::delete('video/{video}', 'VideoController@destroy')->name('destroyVideo');
 Route::post('comment/{video}', 'CommentController@store')->name('storeComment');
 
 /*RESOURCES ROUTES FOR USERS*/
-
+Route::get('user/{user}', 'UserController@show')->name('userById');
+Route::post('user', 'UserController@store')->name('storeUser');
+Route::post('user/login', 'UserController@authenticate')->name('authenticateUser');
+Route::patch('user/{user}', 'UserController@update')->name('updateUser');
+Route::delete('user/{user}', 'UserController@destroy')->name('destroyUser');
