@@ -25,7 +25,8 @@ Route::post('comment/{video}', 'CommentController@store')->name('storeComment');
 
 /*RESOURCES ROUTES FOR USERS*/
 Route::get('user/{user}', 'UserController@show')->name('userById');
-Route::post('user', 'UserController@store')->name('storeUser');
+Route::post('user/register', 'UserController@store')->name('registerUser');
 Route::post('user/login', 'UserController@authenticate')->name('authenticateUser');
+Route::post('user/logout', 'UserController@logout')->name('logoutUser');
 Route::patch('user/{user}', 'UserController@update')->name('updateUser');
 Route::delete('user/{user}', 'UserController@destroy')->name('destroyUser');

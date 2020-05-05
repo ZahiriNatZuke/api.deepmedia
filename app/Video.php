@@ -40,15 +40,23 @@ class Video extends Model
         'updated_at' => 'datetime'
     ];
 
-    public function poster_path()
-    {
-        return '/storage/video-' . $this->channel->user->id . '/poster/' . $this->poster;
-    }
+    /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
+    protected $with = [
+        'comments'
+    ];
 
-    public function video_path()
-    {
-        return '/storage/video-' . $this->channel->user->id . '/video/' . $this->poster;
-    }
+    /**
+     * The relationship counts that should be eager loaded on every query.
+     *
+     * @var array
+     */
+    protected $withCount = [
+        'comments', 'Likes'
+    ];
 
     public function channel()
     {
@@ -60,14 +68,14 @@ class Video extends Model
         return $this->hasMany(Comment::class)->orderByDesc('created_at');
     }
 
-    public function countLikes()
+    public function Likes()
     {
         return $this->belongsToMany(User::class);
     }
 
     public function favoriteForWho()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(Channel::class);
     }
 
 }

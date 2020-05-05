@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatesUserVideoLikePivotTable extends Migration
+class CreateSessionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreatesUserVideoLikePivotTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_video_like', function (Blueprint $table) {
+        Schema::create('sessions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('video_id');
-            $table->timestamps();
+            $table->text('jwt_refresh');
+            $table->integer('last_activity')->default(now()->unix());
             $table->index('user_id');
-            $table->index('video_id');
         });
     }
 
@@ -30,6 +29,6 @@ class CreatesUserVideoLikePivotTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_video_like');
+        Schema::dropIfExists('sessions');
     }
 }

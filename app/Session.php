@@ -5,11 +5,11 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class Channel extends Model
+class Session extends Model
 {
     use Notifiable;
 
-    protected $table = 'channels';
+    protected $table = 'sessions';
     protected $primaryKey = 'id';
 
     /**
@@ -18,7 +18,7 @@ class Channel extends Model
      * @var array
      */
     protected $fillable = [
-        'avatar'
+        'jwt_refresh'
     ];
 
     /**
@@ -40,32 +40,8 @@ class Channel extends Model
         'updated_at' => 'datetime'
     ];
 
-    /**
-     * The relations to eager load on every query.
-     *
-     * @var array
-     */
-    protected $with = [
-        'user'
-    ];
-
-    /**
-     * The relationship counts that should be eager loaded on every query.
-     *
-     * @var array
-     */
-    protected $withCount = [
-        'videos'
-    ];
-
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasOne(User::class);
     }
-
-    public function videos()
-    {
-        return $this->hasMany(Video::class)->orderByDesc('created_at');
-    }
-
 }

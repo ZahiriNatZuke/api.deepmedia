@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateChannelsTable extends Migration
+class CreatesChannelVideoPivotTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateChannelsTable extends Migration
      */
     public function up()
     {
-        Schema::create('channels', function (Blueprint $table) {
+        Schema::create('channel_video', function (Blueprint $table) {
             $table->id();
-            $table->string('avatar')->default('/storage/wXgHlUZxP82XAx5MWiEUhLP6DWdoZg956HH8gvbJ.png');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('channel_user_id');
+            $table->unsignedBigInteger('video_id');
             $table->timestamps();
-            $table->index('user_id');
+            $table->index('channel_user_id');
+            $table->index('video_id');
         });
     }
 
@@ -29,6 +30,6 @@ class CreateChannelsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('channels');
+        Schema::dropIfExists('channel_video');
     }
 }

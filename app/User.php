@@ -36,7 +36,6 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'ip_list' => 'json'
@@ -51,9 +50,7 @@ class User extends Authenticatable
     {
         parent::boot();
         static::created(function ($user) {
-            $user->channel()->create([
-                'avatar' => '/storage/wXgHlUZxP82XAx5MWiEUhLP6DWdoZg956HH8gvbJ.png'
-            ]);
+            $user->channel()->create();
         });
     }
 
