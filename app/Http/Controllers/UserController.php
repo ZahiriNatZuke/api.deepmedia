@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserUpdateRequest;
+use App\Session;
+use Exception;
 use Firebase\JWT\JWT;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\UserRequest;
@@ -9,6 +12,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -32,17 +36,41 @@ class UserController extends Controller
                 'aud' => 'http://api.deepmedia.dev.com',
                 'iat' => now()->unix(),
                 'nbf' => now()->addMillisecond()->unix(),
-                'exp' => now()->addDays(14)->unix(),
+                'exp' => now()->addDays(1)->unix(),
                 'user' => Auth::user()
             );
             $encoded = JWT::encode($payload, env('APP_KEY'), 'HS512');
             $decoded = JWT::decode($encoded, env('APP_KEY'), array('HS512'));
 
+            $refresh = JWT::encode(array(
+                'sub' => rand(),
+                'iss' => 'http://api.deepmedia.dev.com',
+                'aud' => 'http://api.deepmedia.dev.com',
+                'iat' => now()->unix(),
+                'nbf' => now()->addMillisecond()->unix(),
+                'exp' => now()->addDays(14)->unix(),
+            ), env('APP_KEY'));
+
+            $session = new Session(array(
+                'user_id' => Auth::id(),
+                'jwt_refresh' => $refresh,
+                'last_activity' => now()->toDateTime()
+            ));
+
+            try {
+                $session->saveOrFail();
+            } catch (\Throwable $exception) {
+                $session->update();
+            }
+
             return response([
                 'auth:message' => 'User Authenticated',
                 'auth:user' => $decoded,
-                'jwt' => $encoded
-            ], 200);
+                'session' => $session
+            ], 200)
+                ->header('X-Authentication-JWT', $encoded, true)
+                ->header('X-Refresh-JWT', $refresh, true);
+
         } else {
             return response([
                 'message' => 'User Not Authenticated',
@@ -60,7 +88,7 @@ class UserController extends Controller
     {
         $fromUserRequest = $request->all();
         $newUser = new User($fromUserRequest);
-        $newUser['ip_list'] = ['ip_list' => [$newUser['ip_list']]];
+        $newUser['ip_list'] = [$request->server('REMOTE_ADDR')];
         $newUser['password'] = Hash::make($newUser['password']);
         $newUser->save();
         return response([
@@ -86,13 +114,30 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param UserUpdateRequest $request
      * @param User $user
      * @return Response
      */
-    public function update(Request $request, User $user)
+    public function update(UserUpdateRequest $request, User $user)
     {
-        //
+        $request['password'] = Hash::make($request['password']);
+        $ip_list = $user->ip_list;
+        if (!in_array($request->server('REMOTE_ADDR'), $user->ip_list))
+            $ip_list[count($ip_list)] = $request->server('REMOTE_ADDR');
+        $user->ip_list = $ip_list;
+        if (request()->file('avatar')) {
+            Storage::delete('public/uploads/channel-' . $user->channel->id . '/avatar/' . $user->channel->avatar);
+            $fileAvatar = request()->file('avatar');
+            Storage::put('public/uploads/channel-1/avatar/', $fileAvatar);
+            $user->channel()->update([
+                'avatar' => $fileAvatar->hashName()
+            ]);
+        }
+        $user->update($request->all());
+        return response([
+            'message' => 'User Updated',
+            'user' => $user->channel
+        ], 200);
     }
 
     /**
@@ -100,9 +145,15 @@ class UserController extends Controller
      *
      * @param User $user
      * @return Response
+     * @throws Exception
      */
     public function destroy(User $user)
     {
-        //
+        Storage::deleteDirectory('public/uploads/channel-' . $user->channel->id);
+        $user->channel()->delete();
+        $user->delete();
+        return response([
+            'message' => 'User Deleted'
+        ], 200);
     }
 }

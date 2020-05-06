@@ -28,8 +28,8 @@ class VideoRequest extends FormRequest
             'description' => 'required|max:255|string',
             'state' => 'required|string',
             'category' => 'required|string',
-            'poster' => 'required|image|max:10240',
-            'video' => 'required|mimes:mkv,mp4,avi|max:307200'
+            'poster' => 'required|image|max:10240|file',
+            'video' => 'required|mimes:mkv,mp4,avi|max:307200|file'
         ];
     }
 }

@@ -18,7 +18,7 @@ class Session extends Model
      * @var array
      */
     protected $fillable = [
-        'jwt_refresh'
+        'jwt_refresh', 'user_id', 'last_activity'
     ];
 
     /**
@@ -37,7 +37,8 @@ class Session extends Model
      */
     protected $casts = [
         'created_at' => 'datetime',
-        'updated_at' => 'datetime'
+        'updated_at' => 'datetime',
+        'last_activity' => 'U'
     ];
 
     public function user()
