@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\VideoRequest;
+use App\Http\Requests\VideoUpdateRequest;
 use App\Video;
 use Exception;
 use Illuminate\Http\Request;
@@ -50,9 +51,9 @@ class VideoController extends Controller
         $fileVideo = request()->file('video');
         $fromRequestVideo['poster'] = $filePoster->hashName();
         $fromRequestVideo['video'] = $fileVideo->hashName();
-        $fromRequestVideo['channel_id'] = 1;
         $newVideo = new Video($fromRequestVideo);
-        $newVideo->channel_id = 1;
+        //Cambiar la asignación hardcore del channel_id y poner el canal del user autenticado
+        $newVideo->channel_id = 3;
         try {
             $newVideo->save();
         } catch (Exception $e) {
@@ -78,9 +79,9 @@ class VideoController extends Controller
      */
     public function show(Video $video)
     {
-
+        $video->views_count = $video->views_count + 1;
+        $video->update();
         $cachedVideo = Cache::remember('videos-' . $video->id, now()->addSeconds(30), function () use ($video) {
-            $video['comments'] = $video->comments;
             return $video;
         });
         return response([
@@ -90,28 +91,48 @@ class VideoController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Display a listing of statistics the resource.
      *
-     * @param Request $request
      * @param Video $video
      * @return Response
-     * @throws ValidationException
      */
-    public function update(Video $video, Request $request)
+    public function stats(Video $video)
+    {
+        $likes = $video->Likes()->count();
+        $views = $video->views_count;
+        $comments = $video->comments()->count();
+        return response([
+            'message' => 'Stats from Channel #' . $video->id,
+            'stats' => [
+                'likes' => $likes,
+                'views' => $views,
+                'comments' => $comments
+            ]
+        ], 200);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param Video $video
+     * @param VideoUpdateRequest $request
+     * @return Response
+     */
+    public function update(Video $video, VideoUpdateRequest $request)
     {
         $data = $request->all();
 
         if (request()->file('video')) {
-            Storage::delete('public/uploads/channel-1/video-' . $video->id . '/video/' . $video->video);
+            Storage::delete('public/uploads/channel-' . $video->channel->id . '/video-' . $video->id . '/video/' . $video->video);
             $fileVideo = request()->file('video');
-            Storage::put('public/uploads/channel-1/video-' . $video->id . '/video/', $fileVideo);
+            Storage::put('public/uploads/channel-' . $video->channel->id . '/video-' . $video->id . '/video/', $fileVideo);
             $data['video'] = $fileVideo->hashName();
         }
 
         if (request()->file('poster')) {
-            Storage::delete('public/uploads/channel-1/video-' . $video->id . '/poster/' . $video->poster);
+            Storage::delete('public/uploads/channel-' . $video->channel->id . '/video-' . $video->id . '/poster/' . $video->poster);
             $filePoster = request()->file('poster');
-            Storage::put('public/uploads/channel-1/video-' . $video->id . '/poster/', $filePoster);
+            Storage::put('public/uploads/channel-' . $video->channel->id . '/video-' . $video->id . '/poster/', $filePoster);
             $data['poster'] = $filePoster->hashName();
         }
         $video->update($data);
@@ -130,9 +151,9 @@ class VideoController extends Controller
      */
     public function destroy(Video $video)
     {
+        Storage::delete('public/uploads/channel-' . $video->channel->id . '/video-' . $video->id . '/video/' . $video->video);
+        Storage::delete('public/uploads/channel-' . $video->channel->id . '/video-' . $video->id . '/poster/' . $video->poster);
         $video->delete();
-        Storage::delete('public/uploads/channel-1/video-' . $video->id . '/video/' . $video->video);
-        Storage::delete('public/uploads/channel-1/video-' . $video->id . '/poster/' . $video->poster);
         return response([
             'message' => 'Video Deleted',
             'video-deleted' => $video

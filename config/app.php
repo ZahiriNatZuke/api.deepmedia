@@ -1,7 +1,5 @@
 <?php
 
-use Firebase\JWT\JWT;
-
 return [
 
     /*
@@ -108,7 +106,7 @@ return [
     |
     */
 
-    'faker_locale' => 'en_US',
+    'faker_locale' => 'es_ES',
 
     /*
     |--------------------------------------------------------------------------

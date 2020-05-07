@@ -20,6 +20,7 @@ class CommentController extends Controller
     {
         $fromRequestComment = $request->all();
         $newComment = new Comment($fromRequestComment);
+        //cambiar las aligación hardcore del user_id y poner el id del usuario autenticado
         $newComment->user_id = 1;
         $video->comments()->save($newComment);
         return response([

@@ -58,6 +58,27 @@ class Channel extends Model
         'videos'
     ];
 
+    /**
+     * Get the path for avatar.
+     *
+     * @param string $value
+     * @return array
+     */
+    public function getAvatarAttribute($value)
+    {
+        if ($value != 'wXgHlUZxP82XAx5MWiEUhLP6DWdoZg956HH8gvbJ.png') {
+            $path = '/uploads/channel-' . $this->id . '/avatar/';
+            return array(
+                'name' => $value,
+                'path' => $path . $value
+            );
+        }
+        return array(
+            'name' => $value,
+            'path' => '/' . $value
+        );
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

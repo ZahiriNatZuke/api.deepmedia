@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7d6689aa-2bfb-49f4-a187-76640e7478db" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Http/Requests/UserUpdateRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/UserRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/UserRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/VideoRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/VideoRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Session.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Session.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_05_04_182844_create_sessions_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_05_04_182844_create_sessions_table.php" afterDir="false" />
-    </list>
+    <list default="true" id="7d6689aa-2bfb-49f4-a187-76640e7478db" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -208,7 +200,9 @@
       <option name="presentableId" value="Default" />
       <updated>1588399166555</updated>
       <workItem from="1588399182346" duration="84942000" />
-      <workItem from="1588647405003" duration="25915000" />
+      <workItem from="1588647405003" duration="26140000" />
+      <workItem from="1588786296202" duration="9553000" />
+      <workItem from="1588811916985" duration="1360000" />
     </task>
     <servers />
   </component>
@@ -235,10 +229,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="420" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1366.728@0.0.1366.728" timestamp="1588455658240" />
-    <state x="413" y="119" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1588741416853">
+    <state x="413" y="119" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1588791601785">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="413" y="119" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.728@0.0.1366.728" timestamp="1588741416853" />
+    <state x="413" y="119" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.728@0.0.1366.728" timestamp="1588791601785" />
     <state x="410" y="0" key="#php56/Dockerfile" timestamp="1588399360581">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -255,10 +249,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="543" y="275" key="ComposerValidateDialog/0.0.1366.728@0.0.1366.728" timestamp="1588647580884" />
-    <state x="92" y="92" width="1182" height="544" key="DiffContextDialog" timestamp="1588531971117">
+    <state x="92" y="92" width="1182" height="544" key="DiffContextDialog" timestamp="1588822919804">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="92" y="92" width="1182" height="544" key="DiffContextDialog/0.0.1366.728@0.0.1366.728" timestamp="1588531971117" />
+    <state x="92" y="92" width="1182" height="544" key="DiffContextDialog/0.0.1366.728@0.0.1366.728" timestamp="1588822919804" />
     <state x="463" y="119" key="FileChooserDialogImpl" timestamp="1588452707016">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -295,9 +289,17 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="184" y="6" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1588452709808" />
-    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1588634551178">
+    <state x="339" y="53" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1588786954597">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1588634551178" />
+    <state x="339" y="53" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1366.728@0.0.1366.728" timestamp="1588786954597" />
+    <state x="339" y="162" key="run.anything.popup" timestamp="1588790827358">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="339" y="162" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1588790827358" />
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1588827870863">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1588827870863" />
   </component>
 </project>

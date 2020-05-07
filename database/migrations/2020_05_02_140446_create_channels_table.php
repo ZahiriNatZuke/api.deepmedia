@@ -15,7 +15,7 @@ class CreateChannelsTable extends Migration
     {
         Schema::create('channels', function (Blueprint $table) {
             $table->id();
-            $table->string('avatar')->default('/storage/wXgHlUZxP82XAx5MWiEUhLP6DWdoZg956HH8gvbJ.png');
+            $table->string('avatar')->default('wXgHlUZxP82XAx5MWiEUhLP6DWdoZg956HH8gvbJ.png');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
             $table->index('user_id');

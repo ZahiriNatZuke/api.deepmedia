@@ -58,6 +58,36 @@ class Video extends Model
         'comments', 'Likes'
     ];
 
+    /**
+     * Get the path for poster.
+     *
+     * @param string $value
+     * @return array
+     */
+    public function getPosterAttribute($value)
+    {
+        $path = '/uploads/channel-' . $this->channel->id . '/video-' . $this->id . '/poster/';
+        return array(
+            'name' => $value,
+            'path' => $path . $value
+        );
+    }
+
+    /**
+     * Get the path for video.
+     *
+     * @param string $value
+     * @return array
+     */
+    public function getVideoAttribute($value)
+    {
+        $path = '/uploads/channel-' . $this->channel->id . '/video-' . $this->id . '/video/';
+        return array(
+            'name' => $value,
+            'path' => $path . $value
+        );
+    }
+
     public function channel()
     {
         return $this->belongsTo(Channel::class);

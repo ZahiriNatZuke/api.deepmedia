@@ -11,6 +11,7 @@ use App\Http\Requests\UserRequest;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
@@ -31,9 +32,7 @@ class UserController extends Controller
         if (Auth::attempt($credentials)) {
             Auth::login(Auth::user());
             $payload = array(
-                'sub' => rand(),
-                'iss' => 'http://api.deepmedia.dev.com',
-                'aud' => 'http://api.deepmedia.dev.com',
+                'sub' => Crypt::encrypt(Auth::id()),
                 'iat' => now()->unix(),
                 'nbf' => now()->addMillisecond()->unix(),
                 'exp' => now()->addDays(1)->unix(),
@@ -43,9 +42,7 @@ class UserController extends Controller
             $decoded = JWT::decode($encoded, env('APP_KEY'), array('HS512'));
 
             $refresh = JWT::encode(array(
-                'sub' => rand(),
-                'iss' => 'http://api.deepmedia.dev.com',
-                'aud' => 'http://api.deepmedia.dev.com',
+                'sub' => Crypt::encrypt(Auth::id()),
                 'iat' => now()->unix(),
                 'nbf' => now()->addMillisecond()->unix(),
                 'exp' => now()->addDays(14)->unix(),
@@ -69,7 +66,8 @@ class UserController extends Controller
                 'session' => $session
             ], 200)
                 ->header('X-Authentication-JWT', $encoded, true)
-                ->header('X-Refresh-JWT', $refresh, true);
+                ->header('X-Refresh-JWT', $refresh, true)
+                ->header('X-Encode-ID', Crypt::encrypt(Auth::id()), true);
 
         } else {
             return response([
@@ -88,7 +86,7 @@ class UserController extends Controller
     {
         $fromUserRequest = $request->all();
         $newUser = new User($fromUserRequest);
-        $newUser['ip_list'] = [$request->server('REMOTE_ADDR')];
+        $newUser['ip_list'] = [$request->getClientIp()];
         $newUser['password'] = Hash::make($newUser['password']);
         $newUser->save();
         return response([
@@ -122,13 +120,13 @@ class UserController extends Controller
     {
         $request['password'] = Hash::make($request['password']);
         $ip_list = $user->ip_list;
-        if (!in_array($request->server('REMOTE_ADDR'), $user->ip_list))
-            $ip_list[count($ip_list)] = $request->server('REMOTE_ADDR');
+        if (!in_array($request->getClientIp(), $user->ip_list))
+            $ip_list[count($ip_list)] = $request->getClientIp();
         $user->ip_list = $ip_list;
         if (request()->file('avatar')) {
             Storage::delete('public/uploads/channel-' . $user->channel->id . '/avatar/' . $user->channel->avatar);
             $fileAvatar = request()->file('avatar');
-            Storage::put('public/uploads/channel-1/avatar/', $fileAvatar);
+            Storage::put('public/uploads/channel-' . $user->channel->id . '/avatar/', $fileAvatar);
             $user->channel()->update([
                 'avatar' => $fileAvatar->hashName()
             ]);
@@ -151,6 +149,7 @@ class UserController extends Controller
     {
         Storage::deleteDirectory('public/uploads/channel-' . $user->channel->id);
         $user->channel()->delete();
+        $user->session()->delete();
         $user->delete();
         return response([
             'message' => 'User Deleted'

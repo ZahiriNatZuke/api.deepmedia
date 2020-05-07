@@ -3,19 +3,37 @@
 namespace App\Http\Controllers;
 
 use App\Channel;
+use App\Video;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class ChannelController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of statistics the resource.
      *
+     * @param Channel $channel
      * @return Response
      */
-    public function index()
+    public function stats(Channel $channel)
     {
-        //
+        $videos = $channel->videos;
+        $likes = 0;
+        $views = 0;
+        $comments = 0;
+        foreach ($videos as $video) {
+            $likes += $video->Likes()->count();
+            $views += $video->views_count;
+            $comments += $video->comments()->count();
+        }
+        return response([
+            'message' => 'Stats from Channel #' . $channel->id,
+            'stats' => [
+                'likes' => $likes,
+                'views' => $views,
+                'comments' => $comments
+            ]
+        ], 200);
     }
 
     /**
@@ -37,7 +55,24 @@ class ChannelController extends Controller
      */
     public function show(Channel $channel)
     {
-        //
+        $videos = $channel->videos;
+        $likes = 0;
+        $views = 0;
+        $comments = 0;
+        foreach ($videos as $video) {
+            $likes += $video->Likes()->count();
+            $views += $video->views_count;
+            $comments += $video->comments()->count();
+        }
+        return response([
+            'message' => 'Channel Found',
+            'channel' => $channel,
+            'stats' => [
+                'likes' => $likes,
+                'views' => $views,
+                'comments' => $comments
+            ]
+        ]);
     }
 
     /**

@@ -46,6 +46,11 @@ class User extends Authenticatable
         return $this->hasOne(Channel::class);
     }
 
+    public function session()
+    {
+        return $this->hasOne(Session::class);
+    }
+
     protected static function boot()
     {
         parent::boot();
