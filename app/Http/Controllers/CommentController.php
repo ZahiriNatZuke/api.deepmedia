@@ -6,6 +6,8 @@ use App\Comment;
 use App\Http\Requests\CommentRequest;
 use App\Video;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 
 class CommentController extends Controller
 {
@@ -18,14 +20,16 @@ class CommentController extends Controller
      */
     public function store($video, CommentRequest $request)
     {
+        $video_id = $video;
         $video = Video::query()->findOrFail($video);
         $fromRequestComment = $request->all();
         $newComment = new Comment($fromRequestComment);
-        //cambiar las aligación hardcore del user_id y poner el id del usuario autenticado
-        $newComment->user_id = 1;
-        $video->comments()->save($newComment);
+        $user_id = Crypt::decrypt(Auth::id());
+        $newComment->user_id = $user_id;
+        $newComment->video_id = $video_id;
+        $newComment->save();
         return response([
-            'message' => 'Comment Stored for Video #' . $video->id,
+            'message' => 'Comment Stored for Video #' . $video_id,
             'comment' => $newComment
         ], 200);
     }

@@ -64,6 +64,11 @@ class User extends Authenticatable
         return $this->hasOne(Session::class);
     }
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     protected static function boot()
     {
         parent::boot();

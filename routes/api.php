@@ -27,7 +27,7 @@ Route::delete('video/{video}', 'VideoController@destroy')->name('destroyVideo')
 
 /*RESOURCES ROUTES FOR COMMENTS*/
 Route::post('comment/{video}', 'CommentController@store')->name('storeComment')
-    ->middleware('decodeID:video');
+    ->middleware(['decodeID:video', 'jwt_auth']);
 
 /*RESOURCES ROUTES FOR USERS*/
 Route::get('user/{user}', 'UserController@show')->name('userById')

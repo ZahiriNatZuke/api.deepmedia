@@ -32,7 +32,7 @@ class UserController extends Controller
         if (Auth::attempt($credentials)) {
             Auth::login(Auth::user());
             $payload = array(
-                'sub' => Crypt::encrypt(Auth::id()),
+                'sub' => Auth::id(),
                 'iat' => now()->unix(),
                 'nbf' => now()->addMillisecond()->unix(),
                 'exp' => now()->addDays(1)->unix(),
@@ -42,7 +42,7 @@ class UserController extends Controller
             $decoded = JWT::decode($encoded, env('APP_KEY'), array('HS512'));
 
             $refresh = JWT::encode(array(
-                'sub' => Crypt::encrypt(Auth::id()),
+                'sub' => Auth::id(),
                 'iat' => now()->unix(),
                 'nbf' => now()->addMillisecond()->unix(),
                 'exp' => now()->addDays(14)->unix(),
