@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Crypt;
 
 class User extends Authenticatable
 {
@@ -40,6 +41,18 @@ class User extends Authenticatable
         'updated_at' => 'datetime',
         'ip_list' => 'json'
     ];
+
+    /**
+     * Get the encoded ID.
+     *
+     * @param string $value
+     * @return string
+     */
+    public function getIdAttribute($value)
+    {
+        return Crypt::encrypt($value);
+    }
+
 
     public function channel()
     {

@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Crypt;
 
 class Video extends Model
 {
@@ -59,6 +60,17 @@ class Video extends Model
     ];
 
     /**
+     * Get the encoded ID.
+     *
+     * @param string $value
+     * @return string
+     */
+    public function getIdAttribute($value)
+    {
+        return Crypt::encrypt($value);
+    }
+
+    /**
      * Get the path for poster.
      *
      * @param string $value
@@ -66,7 +78,7 @@ class Video extends Model
      */
     public function getPosterAttribute($value)
     {
-        $path = '/uploads/channel-' . $this->channel->id . '/video-' . $this->id . '/poster/';
+        $path = '/uploads/channel-' . $this->channel_id . '/video-' . Crypt::decrypt($this->id) . '/poster/';
         return array(
             'name' => $value,
             'path' => $path . $value
@@ -81,7 +93,7 @@ class Video extends Model
      */
     public function getVideoAttribute($value)
     {
-        $path = '/uploads/channel-' . $this->channel->id . '/video-' . $this->id . '/video/';
+        $path = '/uploads/channel-' . $this->channel_id . '/video-' . Crypt::decrypt($this->id) . '/video/';
         return array(
             'name' => $value,
             'path' => $path . $value

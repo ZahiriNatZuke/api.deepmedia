@@ -9,6 +9,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 
@@ -53,7 +54,7 @@ class VideoController extends Controller
         $fromRequestVideo['video'] = $fileVideo->hashName();
         $newVideo = new Video($fromRequestVideo);
         //Cambiar la asignación hardcore del channel_id y poner el canal del user autenticado
-        $newVideo->channel_id = 3;
+        $newVideo->channel_id = 1;
         try {
             $newVideo->save();
         } catch (Exception $e) {
@@ -74,11 +75,12 @@ class VideoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Video $video
+     * @param $video
      * @return Response
      */
-    public function show(Video $video)
+    public function show($video)
     {
+        $video = Video::query()->findOrFail($video);
         $video->views_count = $video->views_count + 1;
         $video->update();
         $cachedVideo = Cache::remember('videos-' . $video->id, now()->addSeconds(30), function () use ($video) {
@@ -93,16 +95,17 @@ class VideoController extends Controller
     /**
      * Display a listing of statistics the resource.
      *
-     * @param Video $video
+     * @param $video
      * @return Response
      */
-    public function stats(Video $video)
+    public function stats($video)
     {
+        $video = Video::query()->findOrFail($video);
         $likes = $video->Likes()->count();
         $views = $video->views_count;
         $comments = $video->comments()->count();
         return response([
-            'message' => 'Stats from Channel #' . $video->id,
+            'message' => 'Stats from Channel #' . Crypt::decrypt($video->id),
             'stats' => [
                 'likes' => $likes,
                 'views' => $views,
@@ -114,25 +117,26 @@ class VideoController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Video $video
+     * @param $video
      * @param VideoUpdateRequest $request
      * @return Response
      */
-    public function update(Video $video, VideoUpdateRequest $request)
+    public function update($video, VideoUpdateRequest $request)
     {
+        $video = Video::query()->findOrFail($video);
         $data = $request->all();
 
         if (request()->file('video')) {
-            Storage::delete('public/uploads/channel-' . $video->channel->id . '/video-' . $video->id . '/video/' . $video->video);
+            Storage::delete('public/uploads/channel-' . Crypt::decrypt($video->channel_id) . '/video-' . Crypt::decrypt($video->id) . '/video/' . $video->video['name']);
             $fileVideo = request()->file('video');
-            Storage::put('public/uploads/channel-' . $video->channel->id . '/video-' . $video->id . '/video/', $fileVideo);
+            Storage::put('public/uploads/channel-' . Crypt::decrypt($video->channel_id) . '/video-' . Crypt::decrypt($video->id) . '/video/', $fileVideo);
             $data['video'] = $fileVideo->hashName();
         }
 
         if (request()->file('poster')) {
-            Storage::delete('public/uploads/channel-' . $video->channel->id . '/video-' . $video->id . '/poster/' . $video->poster);
+            Storage::delete('public/uploads/channel-' . Crypt::decrypt($video->channel_id) . '/video-' . Crypt::decrypt($video->id) . '/poster/' . $video->poster['name']);
             $filePoster = request()->file('poster');
-            Storage::put('public/uploads/channel-' . $video->channel->id . '/video-' . $video->id . '/poster/', $filePoster);
+            Storage::put('public/uploads/channel-' . Crypt::decrypt($video->channel_id) . '/video-' . Crypt::decrypt($video->id) . '/poster/', $filePoster);
             $data['poster'] = $filePoster->hashName();
         }
         $video->update($data);
@@ -145,14 +149,14 @@ class VideoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param video $video
+     * @param $video
      * @return Response
      * @throws Exception
      */
-    public function destroy(Video $video)
+    public function destroy($video)
     {
-        Storage::delete('public/uploads/channel-' . $video->channel->id . '/video-' . $video->id . '/video/' . $video->video);
-        Storage::delete('public/uploads/channel-' . $video->channel->id . '/video-' . $video->id . '/poster/' . $video->poster);
+        $video = Video::query()->findOrFail($video);
+        Storage::deleteDirectory('public/uploads/channel-' . Crypt::decrypt($video->channel_id) . '/video-' . Crypt::decrypt($video->id));
         $video->delete();
         return response([
             'message' => 'Video Deleted',

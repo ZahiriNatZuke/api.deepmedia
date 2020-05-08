@@ -17,13 +17,13 @@ return [
 
     'paths' => ['api/*'],
 
-    'allowed_methods' => ['*'],
+    'allowed_methods' => ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS', 'HEAD'],
 
-    'allowed_origins' => ['*'],
+    'allowed_origins' => ['http://api.deepmedia.dev.com', 'http://api.deepmedia.com', 'http://127.0.0.1', 'http://localhost', 'http://10.8.125.30'],
 
     'allowed_origins_patterns' => [],
 
-    'allowed_headers' => ['*'],
+    'allowed_headers' => ['X-Authentication-JWT', 'X-Refresh-JWT', 'X-Encode-ID', 'Accept', 'Content-Type'],
 
     'exposed_headers' => [],
 

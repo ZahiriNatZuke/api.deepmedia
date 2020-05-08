@@ -12,12 +12,13 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Video $video
+     * @param $video
      * @param CommentRequest $request
      * @return Response
      */
-    public function store(Video $video, CommentRequest $request)
+    public function store($video, CommentRequest $request)
     {
+        $video = Video::query()->findOrFail($video);
         $fromRequestComment = $request->all();
         $newComment = new Comment($fromRequestComment);
         //cambiar las aligación hardcore del user_id y poner el id del usuario autenticado

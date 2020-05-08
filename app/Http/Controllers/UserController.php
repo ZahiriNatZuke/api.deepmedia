@@ -67,7 +67,7 @@ class UserController extends Controller
             ], 200)
                 ->header('X-Authentication-JWT', $encoded, true)
                 ->header('X-Refresh-JWT', $refresh, true)
-                ->header('X-Encode-ID', Crypt::encrypt(Auth::id()), true);
+                ->header('X-Encode-ID', Auth::id(), true);
 
         } else {
             return response([
@@ -98,11 +98,12 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param User $user
+     * @param $user
      * @return Response
      */
-    public function show(User $user)
+    public function show($user)
     {
+        $user = User::query()->findOrFail($user);
         return response([
             'message' => 'User Found',
             'user' => $user
@@ -113,20 +114,21 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param UserUpdateRequest $request
-     * @param User $user
+     * @param $user
      * @return Response
      */
-    public function update(UserUpdateRequest $request, User $user)
+    public function update(UserUpdateRequest $request, $user)
     {
+        $user = User::query()->findOrFail($user);
         $request['password'] = Hash::make($request['password']);
         $ip_list = $user->ip_list;
         if (!in_array($request->getClientIp(), $user->ip_list))
             $ip_list[count($ip_list)] = $request->getClientIp();
         $user->ip_list = $ip_list;
         if (request()->file('avatar')) {
-            Storage::delete('public/uploads/channel-' . $user->channel->id . '/avatar/' . $user->channel->avatar);
+            Storage::delete('public/uploads/channel-' . Crypt::decrypt($user->channel->id) . '/avatar/' . $user->channel->avatar['name']);
             $fileAvatar = request()->file('avatar');
-            Storage::put('public/uploads/channel-' . $user->channel->id . '/avatar/', $fileAvatar);
+            Storage::put('public/uploads/channel-' . Crypt::decrypt($user->channel->id) . '/avatar/', $fileAvatar);
             $user->channel()->update([
                 'avatar' => $fileAvatar->hashName()
             ]);
@@ -141,13 +143,14 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param User $user
+     * @param $user
      * @return Response
      * @throws Exception
      */
-    public function destroy(User $user)
+    public function destroy($user)
     {
-        Storage::deleteDirectory('public/uploads/channel-' . $user->channel->id);
+        $user = User::query()->findOrFail($user);
+        Storage::deleteDirectory('public/uploads/channel-' . Crypt::decrypt($user->channel->id));
         $user->channel()->delete();
         $user->session()->delete();
         $user->delete();

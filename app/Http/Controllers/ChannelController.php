@@ -6,17 +6,19 @@ use App\Channel;
 use App\Video;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Crypt;
 
 class ChannelController extends Controller
 {
     /**
      * Display a listing of statistics the resource.
      *
-     * @param Channel $channel
+     * @param $channel
      * @return Response
      */
-    public function stats(Channel $channel)
+    public function stats($channel)
     {
+        $channel = Channel::query()->findOrFail($channel);
         $videos = $channel->videos;
         $likes = 0;
         $views = 0;
@@ -27,7 +29,7 @@ class ChannelController extends Controller
             $comments += $video->comments()->count();
         }
         return response([
-            'message' => 'Stats from Channel #' . $channel->id,
+            'message' => 'Stats from Channel #' . Crypt::decrypt($channel->id),
             'stats' => [
                 'likes' => $likes,
                 'views' => $views,
@@ -50,11 +52,12 @@ class ChannelController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Channel $channel
+     * @param $channel
      * @return Response
      */
-    public function show(Channel $channel)
+    public function show($channel)
     {
+        $channel = Channel::query()->findOrFail($channel);
         $videos = $channel->videos;
         $likes = 0;
         $views = 0;

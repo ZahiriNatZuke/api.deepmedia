@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Crypt;
 
 class Channel extends Model
 {
@@ -57,6 +58,17 @@ class Channel extends Model
     protected $withCount = [
         'videos'
     ];
+
+    /**
+     * Get the encoded ID.
+     *
+     * @param string $value
+     * @return string
+     */
+    public function getIdAttribute($value)
+    {
+        return Crypt::encrypt($value);
+    }
 
     /**
      * Get the path for avatar.
