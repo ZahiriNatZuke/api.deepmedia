@@ -67,7 +67,7 @@ class UserController extends Controller
             ], 200)
                 ->header('X-Authentication-JWT', $encoded, true)
                 ->header('X-Refresh-JWT', $refresh, true)
-                ->header('X-Encode-ID', Auth::id(), true);
+                ->header('X-Encode-ID', Crypt::encrypt(Auth::id()), true);
 
         } else {
             return response([
@@ -86,7 +86,6 @@ class UserController extends Controller
     {
         $fromUserRequest = $request->all();
         $newUser = new User($fromUserRequest);
-        $newUser['ip_list'] = [$request->getClientIp()];
         $newUser['password'] = Hash::make($newUser['password']);
         $newUser->save();
         return response([
@@ -98,12 +97,11 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param $user
+     * @param User $user
      * @return Response
      */
-    public function show($user)
+    public function show(User $user)
     {
-        $user = User::query()->findOrFail($user);
         return response([
             'message' => 'User Found',
             'user' => $user
@@ -114,21 +112,16 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param UserUpdateRequest $request
-     * @param $user
+     * @param User $user
      * @return Response
      */
-    public function update(UserUpdateRequest $request, $user)
+    public function update(UserUpdateRequest $request, User $user)
     {
-        $user = User::query()->findOrFail($user);
         $request['password'] = Hash::make($request['password']);
-        $ip_list = $user->ip_list;
-        if (!in_array($request->getClientIp(), $user->ip_list))
-            $ip_list[count($ip_list)] = $request->getClientIp();
-        $user->ip_list = $ip_list;
         if (request()->file('avatar')) {
-            Storage::delete('public/uploads/channel-' . Crypt::decrypt($user->channel->id) . '/avatar/' . $user->channel->avatar['name']);
+            Storage::delete('public/uploads/channel-' . $user->channel->id . '/avatar/' . $user->channel->avatar['name']);
             $fileAvatar = request()->file('avatar');
-            Storage::put('public/uploads/channel-' . Crypt::decrypt($user->channel->id) . '/avatar/', $fileAvatar);
+            Storage::put('public/uploads/channel-' . $user->channel->id . '/avatar/', $fileAvatar);
             $user->channel()->update([
                 'avatar' => $fileAvatar->hashName()
             ]);
@@ -143,16 +136,16 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param $user
+     * @param User $user
      * @return Response
      * @throws Exception
      */
-    public function destroy($user)
+    public function destroy(User $user)
     {
-        $user = User::query()->findOrFail($user);
-        Storage::deleteDirectory('public/uploads/channel-' . Crypt::decrypt($user->channel->id));
+        Storage::deleteDirectory('public/uploads/channel-' . $user->channel->id);
         $user->channel()->delete();
         $user->session()->delete();
+        $user->record()->delete();
         $user->delete();
         return response([
             'message' => 'User Deleted'

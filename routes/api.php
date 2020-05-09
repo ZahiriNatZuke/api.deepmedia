@@ -14,34 +14,30 @@ use Illuminate\Support\Facades\Route;
 */
 
 /*RESOURCES ROUTES FOR VIDEOS*/
-Route::get('video/{video}', 'VideoController@show')->name('videoById')
-    ->middleware('decodeID:video');
-Route::get('video/stats/{video}', 'VideoController@stats')->name('statsByVideo')
-    ->middleware('decodeID:video');
+Route::get('video/{video}', 'VideoController@show')->name('videoById');
+Route::get('video/stats/{video}', 'VideoController@stats')->name('statsByVideo');
 Route::get('video/by/{category}', 'VideoController@index')->name('videoByCategory');
-Route::post('video', 'VideoController@store')->name('storeVideo');
+Route::post('video', 'VideoController@store')->name('storeVideo')
+    ->middleware(['jwt_auth']);
 Route::patch('video/{video}', 'VideoController@update')->name('updateVideo')
-    ->middleware('decodeID:video');
+    ->middleware(['jwt_auth']);
 Route::delete('video/{video}', 'VideoController@destroy')->name('destroyVideo')
-    ->middleware('decodeID:video');
+    ->middleware(['jwt_auth']);
 
 /*RESOURCES ROUTES FOR COMMENTS*/
 Route::post('comment/{video}', 'CommentController@store')->name('storeComment')
-    ->middleware(['decodeID:video', 'jwt_auth']);
+    ->middleware(['jwt_auth']);
 
 /*RESOURCES ROUTES FOR USERS*/
-Route::get('user/{user}', 'UserController@show')->name('userById')
-    ->middleware('decodeID:user');
+Route::get('user/{user}', 'UserController@show')->name('userById');
 Route::post('user/register', 'UserController@store')->name('registerUser');
 Route::post('user/login', 'UserController@authenticate')->name('authenticateUser');
 Route::post('user/logout', 'UserController@logout')->name('logoutUser');
 Route::patch('user/{user}', 'UserController@update')->name('updateUser')
-    ->middleware('decodeID:user');
+    ->middleware(['jwt_auth']);
 Route::delete('user/{user}', 'UserController@destroy')->name('destroyUser')
-    ->middleware('decodeID:user');
+    ->middleware(['jwt_auth']);
 
 /*RESOURCES ROUTES FOR CHANNELS*/
-Route::get('channel/{channel}', 'ChannelController@show')->name('channelById')
-    ->middleware('decodeID:channel');
-Route::get('channel/stats/{channel}', 'ChannelController@stats')->name('statsByChannel')
-    ->middleware('decodeID:channel');
+Route::get('channel/{channel}', 'ChannelController@show')->name('channelById');
+Route::get('channel/stats/{channel}', 'ChannelController@stats')->name('statsByChannel');

@@ -19,7 +19,7 @@ class Channel extends Model
      * @var array
      */
     protected $fillable = [
-        'avatar'
+        'avatar', 'user_id'
     ];
 
     /**
@@ -58,17 +58,6 @@ class Channel extends Model
     protected $withCount = [
         'videos'
     ];
-
-    /**
-     * Get the encoded ID.
-     *
-     * @param string $value
-     * @return string
-     */
-    public function getIdAttribute($value)
-    {
-        return Crypt::encrypt($value);
-    }
 
     /**
      * Get the path for avatar.

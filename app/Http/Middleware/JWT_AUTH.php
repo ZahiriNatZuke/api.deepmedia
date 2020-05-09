@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Record;
 use App\Session;
 use Closure;
 use Firebase\JWT\JWT;
@@ -27,21 +28,21 @@ class JWT_AUTH
         } catch (\Exception $exception) {
             return response([
                 'message' => $exception->getMessage()
-            ], 403);
+            ], 401);
         }
         try {
             $id = Crypt::decrypt($request->header('X-Encode-ID'));
         } catch (DecryptException $e) {
             return response([
                 'message' => $e->getMessage(),
-            ], 403);
+            ], 401);
         }
 
         Auth::loginUsingId($id);
 
         $this->updateSession($id);
 
-        $this->updateIpList(Auth::user(), $request);
+        $this->updateIpList($id, $request);
 
         return $next($request);
     }
@@ -54,12 +55,15 @@ class JWT_AUTH
         ]);
     }
 
-    private function updateIpList($user, Request $request)
+    private function updateIpList($id, Request $request)
     {
-        $ip_list = $user->ip_list;
-        if (!in_array($request->getClientIp(), $user->ip_list))
+        $record = Record::query()->find($id);
+        $ip_list = $record->ip_list;
+        if (!in_array($request->getClientIp(), $ip_list)) {
             $ip_list[count($ip_list)] = $request->getClientIp();
-        $user->ip_list = $ip_list;
-        $user->update();
+            $record->update([
+                'ip_list' => $ip_list
+            ]);
+        }
     }
 }

@@ -19,7 +19,7 @@ class Video extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'description', 'state', 'category', 'poster', 'video', 'views_count'
+        'title', 'description', 'state', 'category', 'poster', 'video', 'views_count', 'channel_id'
     ];
 
     /**
@@ -60,17 +60,6 @@ class Video extends Model
     ];
 
     /**
-     * Get the encoded ID.
-     *
-     * @param string $value
-     * @return string
-     */
-    public function getIdAttribute($value)
-    {
-        return Crypt::encrypt($value);
-    }
-
-    /**
      * Get the path for poster.
      *
      * @param string $value
@@ -78,7 +67,7 @@ class Video extends Model
      */
     public function getPosterAttribute($value)
     {
-        $path = '/uploads/channel-' . $this->channel_id . '/video-' . Crypt::decrypt($this->id) . '/poster/';
+        $path = '/uploads/channel-' . $this->channel_id . '/video-' . $this->id . '/poster/';
         return array(
             'name' => $value,
             'path' => $path . $value
@@ -93,7 +82,7 @@ class Video extends Model
      */
     public function getVideoAttribute($value)
     {
-        $path = '/uploads/channel-' . $this->channel_id . '/video-' . Crypt::decrypt($this->id) . '/video/';
+        $path = '/uploads/channel-' . $this->channel_id . '/video-' . $this->id . '/video/';
         return array(
             'name' => $value,
             'path' => $path . $value

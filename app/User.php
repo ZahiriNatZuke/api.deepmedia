@@ -42,21 +42,14 @@ class User extends Authenticatable
         'ip_list' => 'json'
     ];
 
-    /**
-     * Get the encoded ID.
-     *
-     * @param string $value
-     * @return string
-     */
-    public function getIdAttribute($value)
-    {
-        return Crypt::encrypt($value);
-    }
-
-
     public function channel()
     {
         return $this->hasOne(Channel::class);
+    }
+
+    public function record()
+    {
+        return $this->hasOne(Record::class);
     }
 
     public function session()
@@ -74,6 +67,14 @@ class User extends Authenticatable
         parent::boot();
         static::created(function ($user) {
             $user->channel()->create();
+            $user->record()->create([
+                'ip_list' => [],
+                'reset_password' => [
+                    'secret_list' => '',
+                    'password' => '',
+                    'password_expired_at' => ''
+                ]
+            ]);
         });
     }
 
