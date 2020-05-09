@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Comment;
 use App\Http\Requests\UserUpdateRequest;
 use App\Session;
+use App\Video;
 use Exception;
 use Firebase\JWT\JWT;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\UserRequest;
 use App\User;
@@ -48,22 +51,14 @@ class UserController extends Controller
                 'exp' => now()->addDays(14)->unix(),
             ), env('APP_KEY'));
 
-            $session = new Session(array(
-                'user_id' => Auth::id(),
+            Auth::user()->session()->create([
                 'jwt_refresh' => $refresh,
                 'last_activity' => now()->toDateTime()
-            ));
-
-            try {
-                $session->saveOrFail();
-            } catch (\Throwable $exception) {
-                $session->update();
-            }
+            ]);
 
             return response([
                 'auth:message' => 'User Authenticated',
-                'auth:user' => $decoded,
-                'session' => $session
+                'auth:user' => $decoded
             ], 200)
                 ->header('X-Authentication-JWT', $encoded, true)
                 ->header('X-Refresh-JWT', $refresh, true)
@@ -77,6 +72,86 @@ class UserController extends Controller
     }
 
     /**
+     * Handle an logout attempt.
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function logout(Request $request)
+    {
+        try {
+            $id = Crypt::decrypt($request->header('X-Encode-ID'));
+        } catch (DecryptException $e) {
+            return response([
+                'message' => $e->getMessage(),
+            ], 401);
+        }
+        Session::query()->where('user_id', 'LIKE', $id)->delete();
+        Auth::logout();
+        return response([
+            'message' => 'User Logout Successfully'
+        ], 200);
+    }
+
+    /**
+     * Handle an logout attempt.
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function refresh(Request $request)
+    {
+        $jwt_refresh = $request->header('X-Refresh-JWT');
+        try {
+            $jwt_refresh_decoded = JWT::decode($jwt_refresh, env('APP_KEY'), array('HS256'));
+        } catch (\Exception $exception) {
+            return response([
+                'message' => $exception->getMessage()
+            ], 401);
+        }
+        $session = Session::query()->where('user_id', 'LIKE', $jwt_refresh_decoded->sub)->get()[0];
+        if ($session->jwt_refresh == $jwt_refresh)
+            Auth::loginUsingId($jwt_refresh_decoded->sub);
+        else {
+            $session->delete();
+            return response([
+                'message' => 'JWT Refresh Invalid, Session Closed'
+            ], 401);
+        }
+
+        $payload = array(
+            'sub' => Auth::id(),
+            'iat' => now()->unix(),
+            'nbf' => now()->addMillisecond()->unix(),
+            'exp' => now()->addDays(1)->unix(),
+            'user' => Auth::user()
+        );
+        $encoded = JWT::encode($payload, env('APP_KEY'), 'HS512');
+        $decoded = JWT::decode($encoded, env('APP_KEY'), array('HS512'));
+
+        $new_jwt_refresh = JWT::encode(array(
+            'sub' => Auth::id(),
+            'iat' => now()->unix(),
+            'nbf' => now()->addMillisecond()->unix(),
+            'exp' => now()->addDays(14)->unix(),
+        ), env('APP_KEY'));
+
+        $session->update([
+            'jwt_refresh' => $new_jwt_refresh,
+            'last_activity' => now()->toDateTime()
+        ]);
+
+        return response([
+            'message' => 'User Login Successfully',
+            'auth:message' => 'User Authenticated',
+            'auth:user' => $decoded
+        ], 200)
+            ->header('X-Authentication-JWT', $encoded, true)
+            ->header('X-Refresh-JWT', $new_jwt_refresh, true)
+            ->header('X-Encode-ID', Crypt::encrypt(Auth::id()), true);;
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param UserRequest $request
@@ -87,7 +162,15 @@ class UserController extends Controller
         $fromUserRequest = $request->all();
         $newUser = new User($fromUserRequest);
         $newUser['password'] = Hash::make($newUser['password']);
-        $newUser->save();
+        try {
+            $newUser->save();
+        } catch (Exception $e) {
+            return response([
+                'message' => 'ERROR!!, User Not Stored',
+                'error:message' => $e->getMessage(),
+                'error' => $e->getCode(),
+            ], 422);
+        }
         return response([
             'message' => 'User Stored',
             'user' => $newUser
@@ -143,10 +226,20 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         Storage::deleteDirectory('public/uploads/channel-' . $user->channel->id);
-        $user->channel()->delete();
-        $user->session()->delete();
-        $user->record()->delete();
-        $user->delete();
+        try {
+            Video::query()->where('channel_id', 'LIKE', $user->channel->id)->delete();
+            Comment::query()->where('user_id', 'LIKE', $user->id)->delete();
+            $user->channel()->delete();
+            $user->session()->delete();
+            $user->record()->delete();
+            $user->delete();
+        } catch (Exception $e) {
+            return response([
+                'message' => 'ERROR!!, User not Deleted',
+                'error:message' => $e->getMessage(),
+                'error' => $e->getCode(),
+            ], 422);
+        }
         return response([
             'message' => 'User Deleted'
         ], 200);

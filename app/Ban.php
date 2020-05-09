@@ -18,7 +18,7 @@ class Ban extends Model
      * @var array
      */
     protected $fillable = [
-        'list_ip'
+        'ip_list'
     ];
 
     /**

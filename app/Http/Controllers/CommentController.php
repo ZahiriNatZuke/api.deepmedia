@@ -23,7 +23,15 @@ class CommentController extends Controller
         $newComment = new Comment($fromRequestComment);
         $newComment->user_id = Auth::id();
         $newComment->video_id = $video->id;
-        $newComment->save();
+        try {
+            $newComment->save();
+        } catch (\Exception $e) {
+            return response([
+                'message' => 'ERROR!!, Comment Not Stored',
+                'error:message' => $e->getMessage(),
+                'error' => $e->getCode(),
+            ], 422);
+        }
         return response([
             'message' => 'Comment Stored for Video #' . $video->id,
             'comment' => $newComment

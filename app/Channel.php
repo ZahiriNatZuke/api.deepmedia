@@ -19,7 +19,7 @@ class Channel extends Model
      * @var array
      */
     protected $fillable = [
-        'avatar', 'user_id'
+        'avatar'
     ];
 
     /**
@@ -56,7 +56,7 @@ class Channel extends Model
      * @var array
      */
     protected $withCount = [
-        'videos'
+        'videos', 'myFavorites'
     ];
 
     /**
@@ -83,6 +83,11 @@ class Channel extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function myFavorites()
+    {
+        return $this->belongsToMany(Video::class);
     }
 
     public function videos()

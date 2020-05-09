@@ -15,10 +15,9 @@ class CreatesChannelVideoPivotTable extends Migration
     {
         Schema::create('channel_video', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('channel_user_id');
+            $table->unsignedBigInteger('channel_id');
             $table->unsignedBigInteger('video_id');
-            $table->timestamps();
-            $table->index('channel_user_id');
+            $table->index('channel_id');
             $table->index('video_id');
         });
     }

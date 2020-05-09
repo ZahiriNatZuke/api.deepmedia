@@ -4,7 +4,6 @@ namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Crypt;
 
 class User extends Authenticatable
 {
@@ -19,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'fullname', 'username', 'email', 'password', 'ip_list'
+        'fullname', 'username', 'email', 'password'
     ];
 
     /**
@@ -28,7 +27,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token'
+        'password'
     ];
 
     /**
@@ -38,8 +37,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'created_at' => 'datetime',
-        'updated_at' => 'datetime',
-        'ip_list' => 'json'
+        'updated_at' => 'datetime'
     ];
 
     public function channel()
@@ -68,6 +66,12 @@ class User extends Authenticatable
         static::created(function ($user) {
             $user->channel()->create();
             $user->record()->create([
+                'banished' => [
+                    'status' => false,
+                    'why' => '',
+                    'byWho' => '',
+                    'banish_expired_at' => ''
+                ],
                 'ip_list' => [],
                 'reset_password' => [
                     'secret_list' => '',
@@ -79,11 +83,6 @@ class User extends Authenticatable
     }
 
     public function myLikes()
-    {
-        return $this->belongsToMany(Video::class);
-    }
-
-    public function myFavorites()
     {
         return $this->belongsToMany(Video::class);
     }

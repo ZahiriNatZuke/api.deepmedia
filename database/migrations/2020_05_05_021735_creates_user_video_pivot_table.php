@@ -17,7 +17,6 @@ class CreatesUserVideoPivotTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('video_id');
-            $table->timestamps();
             $table->index('user_id');
             $table->index('video_id');
         });

@@ -16,10 +16,10 @@ class CreateRecordsTable extends Migration
         Schema::create('records', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->unique();
-            $table->json('ip_list')->nullable();
-            $table->json('reset_password')->nullable();
             $table->enum('role', ['ROLE_USER', 'ROLE_ADMIN', 'ROLE_ROOT'])->default('ROLE_USER');
-            $table->boolean('banished')->default(false);
+            $table->json('ip_list');
+            $table->json('reset_password');
+            $table->json('banished');
             $table->timestamps();
             $table->index('user_id');
         });

@@ -19,7 +19,7 @@ class Video extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'description', 'state', 'category', 'poster', 'video', 'views_count', 'channel_id'
+        'title', 'description', 'state', 'category', 'poster', 'video', 'views_count'
     ];
 
     /**
@@ -47,7 +47,7 @@ class Video extends Model
      * @var array
      */
     protected $with = [
-        'comments'
+        'comments', 'favoriteForWho'
     ];
 
     /**

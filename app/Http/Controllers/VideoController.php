@@ -9,7 +9,6 @@ use Exception;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
 
 class VideoController extends Controller
@@ -58,9 +57,9 @@ class VideoController extends Controller
         } catch (Exception $e) {
             return response([
                 'message' => 'ERROR!!, Video Not Stored',
-                'errormessage' => $e->getMessage(),
+                'error:message' => $e->getMessage(),
                 'error' => $e->getCode(),
-            ], 500);
+            ], 422);
         }
         Storage::put('public/uploads/channel-' . Auth::id() . '/video-' . $newVideo->id . '/poster/', $filePoster);
         Storage::put('public/uploads/channel-' . Auth::id() . '/video-' . $newVideo->id . '/video/', $fileVideo);
@@ -80,6 +79,7 @@ class VideoController extends Controller
     {
         $video->views_count = $video->views_count + 1;
         $video->update();
+        $video['channel'] = $video->channel;
         $cachedVideo = Cache::remember('videos-' . $video->id, now()->addSeconds(30), function () use ($video) {
             return $video;
         });
@@ -134,7 +134,16 @@ class VideoController extends Controller
             Storage::put('public/uploads/channel-' . $video->channel_id . '/video-' . $video->id . '/poster/', $filePoster);
             $data['poster'] = $filePoster->hashName();
         }
-        $video->update($data);
+
+        try {
+            $video->update($data);
+        } catch (Exception $e) {
+            return response([
+                'message' => 'ERROR!!, Video Not Updated',
+                'error:message' => $e->getMessage(),
+                'error' => $e->getCode(),
+            ], 422);
+        }
         return response([
             'message' => 'Video Updated',
             'video' => $video
@@ -144,15 +153,22 @@ class VideoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param $video
+     * @param Video $video
      * @return Response
      * @throws Exception
      */
-    public function destroy($video)
+    public function destroy(Video $video)
     {
-        $video = Video::query()->findOrFail($video);
-        Storage::deleteDirectory('public/uploads/channel-' . Crypt::decrypt($video->channel_id) . '/video-' . Crypt::decrypt($video->id));
-        $video->delete();
+        try {
+            Storage::deleteDirectory('public/uploads/channel-' . $video->channel->id . '/video-' . $video->id);
+            $video->delete();
+        } catch (Exception $e) {
+            return response([
+                'message' => 'ERROR!!, Video Not Deleted',
+                'error:message' => $e->getMessage(),
+                'error' => $e->getCode(),
+            ], 422);
+        }
         return response([
             'message' => 'Video Deleted',
             'video-deleted' => $video

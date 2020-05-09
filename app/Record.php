@@ -18,7 +18,7 @@ class Record extends Model
      * @var array
      */
     protected $fillable = [
-        'ip_list', 'reset_password', 'role', 'banished', 'user_id'
+        'ip_list', 'reset_password', 'role', 'banished'
     ];
 
     /**
@@ -39,7 +39,8 @@ class Record extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'ip_list' => 'json',
-        'reset_password' => 'json'
+        'reset_password' => 'json',
+        'banished' => 'json'
     ];
 
     public function user()
