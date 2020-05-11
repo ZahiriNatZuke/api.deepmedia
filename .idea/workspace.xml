@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="7d6689aa-2bfb-49f4-a187-76640e7478db" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/cors.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/cors.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,6 +29,13 @@
     </option>
     <expand />
     <select />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="TypeScript File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -167,9 +175,19 @@
     <property name="ts.external.directory.path" value="D:\XAMPP\htdocs\deepmedia\node_modules\typescript\lib" />
     <property name="validate D:/XAMPP/htdocs/api.deepmedia/composer.json" value="--no-interaction --ansi --verbose --no-check-all --with-dependencies" />
   </component>
-  <component name="RunManager" selected="npm.Start Server">
+  <component name="RunManager" selected="npm.Build App">
     <configuration name="phpunit.xml" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
       <TestRunner scope="XML" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Build App" type="js.build_tools.npm">
+      <package-json value="$PROJECT_DIR$/../deepmedia/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="build" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
       <method v="2" />
     </configuration>
     <configuration name="Start Server" type="js.build_tools.npm" temporary="true">
@@ -183,6 +201,7 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="npm.Build App" />
       <item itemvalue="npm.Start Server" />
       <item itemvalue="PHPUnit.phpunit.xml" />
     </list>
@@ -207,6 +226,7 @@
       <workItem from="1588647405003" duration="26140000" />
       <workItem from="1588786296202" duration="9553000" />
       <workItem from="1588811916985" duration="1360000" />
+      <workItem from="1589080372059" duration="34024000" />
     </task>
     <servers />
   </component>
@@ -221,10 +241,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="275" y="22" key="#Composer/0.0.1366.728@0.0.1366.728" timestamp="1588399366968" />
-    <state x="137" y="19" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1588623291890">
+    <state x="137" y="19" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1589129850255">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="137" y="19" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.728@0.0.1366.728" timestamp="1588623291890" />
+    <state x="137" y="19" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.728@0.0.1366.728" timestamp="1589129850255" />
     <state x="445" y="166" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1588472969227">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -261,22 +281,22 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="463" y="119" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1588452707016" />
-    <state width="1323" height="171" key="GridCell.Tab.0.bottom" timestamp="1588636437789">
+    <state width="1323" height="546" key="GridCell.Tab.0.bottom" timestamp="1589171508286">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="171" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1588636437789" />
-    <state width="1323" height="171" key="GridCell.Tab.0.center" timestamp="1588636437789">
+    <state width="1323" height="546" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1589171508286" />
+    <state width="1323" height="546" key="GridCell.Tab.0.center" timestamp="1589171508285">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="171" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1588636437789" />
-    <state width="1323" height="171" key="GridCell.Tab.0.left" timestamp="1588636437789">
+    <state width="1323" height="546" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1589171508285" />
+    <state width="1323" height="546" key="GridCell.Tab.0.left" timestamp="1589171508285">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="171" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1588636437789" />
-    <state width="1323" height="171" key="GridCell.Tab.0.right" timestamp="1588636437789">
+    <state width="1323" height="546" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1589171508285" />
+    <state width="1323" height="546" key="GridCell.Tab.0.right" timestamp="1589171508286">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="171" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1588636437789" />
+    <state width="1323" height="546" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1589171508286" />
     <state x="263" y="98" key="IDE.errors.dialog" timestamp="1588635205801">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -301,9 +321,9 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="339" y="162" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1588903196720" />
-    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1588913813643">
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1589169786054">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1588913813643" />
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1589169786054" />
   </component>
 </project>

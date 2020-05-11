@@ -6,7 +6,11 @@
       <w>fillable</w>
       <w>fullname</w>
       <w>gameplay</w>
+      <w>linkedin</w>
       <w>mimetypes</w>
+      <w>myfavorite</w>
+      <w>myfavorites</w>
+      <w>tutoriales</w>
     </words>
   </dictionary>
 </component>

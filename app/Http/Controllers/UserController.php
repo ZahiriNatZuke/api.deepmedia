@@ -39,7 +39,7 @@ class UserController extends Controller
                 'iat' => now()->unix(),
                 'nbf' => now()->addMillisecond()->unix(),
                 'exp' => now()->addDays(1)->unix(),
-                'user' => Auth::user()
+                'user' => Auth::user()->channel
             );
             $encoded = JWT::encode($payload, env('APP_KEY'), 'HS512');
             $decoded = JWT::decode($encoded, env('APP_KEY'), array('HS512'));
@@ -58,11 +58,11 @@ class UserController extends Controller
 
             return response([
                 'auth:message' => 'User Authenticated',
-                'auth:user' => $decoded
-            ], 200)
-                ->header('X-Authentication-JWT', $encoded, true)
-                ->header('X-Refresh-JWT', $refresh, true)
-                ->header('X-Encode-ID', Crypt::encrypt(Auth::id()), true);
+                'auth:user' => $decoded,
+                'X-Authentication-JWT' => $encoded,
+                'X-Refresh-JWT' => $refresh,
+                'X-Encode-ID' => Crypt::encrypt(Auth::id())
+            ], 200);
 
         } else {
             return response([
@@ -124,7 +124,7 @@ class UserController extends Controller
             'iat' => now()->unix(),
             'nbf' => now()->addMillisecond()->unix(),
             'exp' => now()->addDays(1)->unix(),
-            'user' => Auth::user()
+            'user' => Auth::user()->channel
         );
         $encoded = JWT::encode($payload, env('APP_KEY'), 'HS512');
         $decoded = JWT::decode($encoded, env('APP_KEY'), array('HS512'));
@@ -144,11 +144,11 @@ class UserController extends Controller
         return response([
             'message' => 'User Login Successfully',
             'auth:message' => 'User Authenticated',
-            'auth:user' => $decoded
-        ], 200)
-            ->header('X-Authentication-JWT', $encoded, true)
-            ->header('X-Refresh-JWT', $new_jwt_refresh, true)
-            ->header('X-Encode-ID', Crypt::encrypt(Auth::id()), true);;
+            'auth:user' => $decoded,
+            'X-Authentication-JWT' => $encoded,
+            'X-Refresh-JWT' => $new_jwt_refresh,
+            'X-Encode-ID' => Crypt::encrypt(Auth::id())
+        ], 200);
     }
 
     /**
@@ -172,8 +172,7 @@ class UserController extends Controller
             ], 422);
         }
         return response([
-            'message' => 'User Stored',
-            'user' => $newUser
+            'message' => 'User Stored'
         ], 201);
     }
 
