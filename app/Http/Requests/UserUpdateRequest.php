@@ -24,11 +24,11 @@ class UserUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'fullname' => 'sometimes|string',
-            'username' => 'sometimes|unique:users|min:4|string',
-            'email' => 'sometimes|unique:users|email:rfc,strict,spoof,filter|string',
-            'new_password' => 'sometimes|confirmed|min:8',
-            'avatar_src' => 'sometimes|file|image|max:10240'
+            'fullname' => 'nullable|string',
+            'username' => 'nullable|min:4|string',
+            'email' => 'nullable|email:rfc,strict,spoof,filter|string',
+            'password' => 'nullable|confirmed|min:8',
+            'avatar' => 'nullable|file|image|max:10240'
         ];
     }
 }

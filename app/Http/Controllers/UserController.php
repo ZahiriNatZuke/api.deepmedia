@@ -186,7 +186,7 @@ class UserController extends Controller
     {
         return response([
             'message' => 'User Found',
-            'user' => $user
+            'channel' => $user->channel
         ], 200);
     }
 
@@ -199,8 +199,9 @@ class UserController extends Controller
      */
     public function update(UserUpdateRequest $request, User $user)
     {
-        $request['password'] = Hash::make($request['password']);
-        if (request()->file('avatar')) {
+        if (isset($request['password']) && is_string($request['password']))
+            $request['password'] = Hash::make($request['password']);
+        if (request()->file('avatar', null)) {
             Storage::delete('public/uploads/channel-' . $user->channel->id . '/avatar/' . $user->channel->avatar['name']);
             $fileAvatar = request()->file('avatar');
             Storage::put('public/uploads/channel-' . $user->channel->id . '/avatar/', $fileAvatar);

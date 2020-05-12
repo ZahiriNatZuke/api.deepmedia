@@ -2,14 +2,19 @@
   <dictionary name="ZahiriNatZuke">
     <words>
       <w>authenticatable</w>
+      <w>checkbtn</w>
+      <w>checkbtncancel</w>
       <w>deepmedia</w>
       <w>fillable</w>
       <w>fullname</w>
       <w>gameplay</w>
+      <w>labelcheck</w>
       <w>linkedin</w>
       <w>mimetypes</w>
       <w>myfavorite</w>
       <w>myfavorites</w>
+      <w>neue</w>
+      <w>roboto</w>
       <w>tutoriales</w>
     </words>
   </dictionary>

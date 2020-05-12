@@ -2,8 +2,32 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7d6689aa-2bfb-49f4-a187-76640e7478db" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../deepmedia/src/app/services/authentication.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/ZahiriNatZuke.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/ZahiriNatZuke.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/cors.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/cors.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/JWT_AUTH.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/JWT_AUTH.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_05_04_182844_create_sessions_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_05_04_182844_create_sessions_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/app.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/modules/auth/login/login.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/modules/auth/login/login.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/modules/auth/profile/profile.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/modules/auth/profile/profile.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/modules/auth/profile/profile.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/modules/auth/profile/profile.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/modules/auth/register/register.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/modules/auth/register/register.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/category-card/category-card.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/category-card/category-card.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/profile/profile-card/profile-card.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/profile/profile-card/profile-card.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/profile/profile-card/profile-card.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/profile/profile-card/profile-card.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/profile/profile-form/profile-form.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/profile/profile-form/profile-form.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/sidebar/sidebar.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/sidebar/sidebar.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/sidebar/sidebar.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/sidebar/sidebar.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/view-video/comments/comments.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/view-video/comments/comments.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/view-video/play-list/play-list.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/view-video/play-list/play-list.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/view-video/play-list/play-list.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/view-video/play-list/play-list.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/view-video/play-list/play-list.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/view-video/play-list/play-list.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/services/API.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/services/API.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/services/crud.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/services/crud.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/services/helpers.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/services/helpers.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../deepmedia/src/styles.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/styles.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,7 +62,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../deepmedia" />
   </component>
   <component name="PackageJsonUpdateNotifier">
     <dismissed value="$PROJECT_DIR$/package.json" />
@@ -226,12 +250,26 @@
       <workItem from="1588647405003" duration="26140000" />
       <workItem from="1588786296202" duration="9553000" />
       <workItem from="1588811916985" duration="1360000" />
-      <workItem from="1589080372059" duration="34024000" />
+      <workItem from="1589080372059" duration="68538000" />
+      <workItem from="1589308788359" duration="32987000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
@@ -249,6 +287,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="445" y="166" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1366.728@0.0.1366.728" timestamp="1588472969227" />
+    <state x="488" y="80" key="#com.intellij.ide.util.MemberChooser" timestamp="1589347946686">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="488" y="80" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1589347946686" />
     <state x="420" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1588455658240">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -281,22 +323,22 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="463" y="119" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1588452707016" />
-    <state width="1323" height="546" key="GridCell.Tab.0.bottom" timestamp="1589171508286">
+    <state width="1323" height="546" key="GridCell.Tab.0.bottom" timestamp="1589356604787">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="546" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1589171508286" />
-    <state width="1323" height="546" key="GridCell.Tab.0.center" timestamp="1589171508285">
+    <state width="1323" height="546" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1589356604787" />
+    <state width="1323" height="546" key="GridCell.Tab.0.center" timestamp="1589356604787">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="546" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1589171508285" />
-    <state width="1323" height="546" key="GridCell.Tab.0.left" timestamp="1589171508285">
+    <state width="1323" height="546" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1589356604787" />
+    <state width="1323" height="546" key="GridCell.Tab.0.left" timestamp="1589356604787">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="546" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1589171508285" />
-    <state width="1323" height="546" key="GridCell.Tab.0.right" timestamp="1589171508286">
+    <state width="1323" height="546" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1589356604787" />
+    <state width="1323" height="546" key="GridCell.Tab.0.right" timestamp="1589356604787">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="546" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1589171508286" />
+    <state width="1323" height="546" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1589356604787" />
     <state x="263" y="98" key="IDE.errors.dialog" timestamp="1588635205801">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -317,13 +359,13 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="339" y="53" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1366.728@0.0.1366.728" timestamp="1588786954597" />
-    <state x="339" y="162" key="run.anything.popup" timestamp="1588903196720">
+    <state x="339" y="162" key="run.anything.popup" timestamp="1589343027287">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="339" y="162" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1588903196720" />
-    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1589169786054">
+    <state x="339" y="162" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1589343027287" />
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1589356411663">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1589169786054" />
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1589356411663" />
   </component>
 </project>

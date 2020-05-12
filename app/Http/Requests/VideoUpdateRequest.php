@@ -24,12 +24,12 @@ class VideoUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'sometimes|unique:videos|string',
-            'description' => 'sometimes|max:255|string',
-            'state' => 'sometimes|string',
-            'category' => 'sometimes|string',
-            'poster' => 'sometimes|image|max:10240|file',
-            'video' => 'sometimes|mimes:mkv,mp4,avi|max:307200|file'
+            'title' => 'nullable|unique:videos|string',
+            'description' => 'nullable|max:255|string',
+            'state' => 'nullable|string',
+            'category' => 'nullable|string',
+            'poster' => 'nullable|image|max:10240|file',
+            'video' => 'nullable|mimes:mkv,mp4,avi|max:307200|file'
         ];
     }
 }
