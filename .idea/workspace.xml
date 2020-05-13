@@ -1,34 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7d6689aa-2bfb-49f4-a187-76640e7478db" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../deepmedia/src/app/services/authentication.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/ZahiriNatZuke.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/ZahiriNatZuke.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/JWT_AUTH.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/JWT_AUTH.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_05_04_182844_create_sessions_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_05_04_182844_create_sessions_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/app.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/modules/auth/login/login.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/modules/auth/login/login.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/modules/auth/profile/profile.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/modules/auth/profile/profile.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/modules/auth/profile/profile.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/modules/auth/profile/profile.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/modules/auth/register/register.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/modules/auth/register/register.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/category-card/category-card.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/category-card/category-card.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/profile/profile-card/profile-card.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/profile/profile-card/profile-card.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/profile/profile-card/profile-card.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/profile/profile-card/profile-card.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/profile/profile-form/profile-form.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/profile/profile-form/profile-form.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/sidebar/sidebar.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/sidebar/sidebar.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/sidebar/sidebar.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/sidebar/sidebar.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/view-video/comments/comments.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/view-video/comments/comments.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/view-video/play-list/play-list.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/view-video/play-list/play-list.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/view-video/play-list/play-list.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/view-video/play-list/play-list.component.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/view-video/play-list/play-list.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/view-video/play-list/play-list.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/services/API.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/services/API.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/services/crud.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/services/crud.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/services/helpers.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/services/helpers.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../deepmedia/src/styles.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/styles.scss" afterDir="false" />
-    </list>
+    <list default="true" id="7d6689aa-2bfb-49f4-a187-76640e7478db" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -251,7 +224,7 @@
       <workItem from="1588786296202" duration="9553000" />
       <workItem from="1588811916985" duration="1360000" />
       <workItem from="1589080372059" duration="68538000" />
-      <workItem from="1589308788359" duration="32987000" />
+      <workItem from="1589308788359" duration="68737000" />
     </task>
     <servers />
   </component>
@@ -279,6 +252,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="275" y="22" key="#Composer/0.0.1366.728@0.0.1366.728" timestamp="1588399366968" />
+    <state x="275" y="22" key="#Inspections" timestamp="1589414040247">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="275" y="22" key="#Inspections/0.0.1366.728@0.0.1366.728" timestamp="1589414040246" />
     <state x="137" y="19" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1589129850255">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -303,6 +280,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="410" y="0" key="#php56/Dockerfile/0.0.1366.728@0.0.1366.728" timestamp="1588399360581" />
+    <state x="292" y="0" key="CommitChangelistDialog2" timestamp="1589434802585">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="292" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1589434802585" />
     <state x="489" y="253" key="ComposerDumpAutoloadDialog" timestamp="1588647818266">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -323,22 +304,22 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="463" y="119" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1588452707016" />
-    <state width="1323" height="546" key="GridCell.Tab.0.bottom" timestamp="1589356604787">
+    <state width="1323" height="546" key="GridCell.Tab.0.bottom" timestamp="1589440897607">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="546" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1589356604787" />
-    <state width="1323" height="546" key="GridCell.Tab.0.center" timestamp="1589356604787">
+    <state width="1323" height="546" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1589440897607" />
+    <state width="1323" height="546" key="GridCell.Tab.0.center" timestamp="1589440897607">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="546" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1589356604787" />
-    <state width="1323" height="546" key="GridCell.Tab.0.left" timestamp="1589356604787">
+    <state width="1323" height="546" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1589440897607" />
+    <state width="1323" height="546" key="GridCell.Tab.0.left" timestamp="1589440897607">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="546" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1589356604787" />
-    <state width="1323" height="546" key="GridCell.Tab.0.right" timestamp="1589356604787">
+    <state width="1323" height="546" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1589440897607" />
+    <state width="1323" height="546" key="GridCell.Tab.0.right" timestamp="1589440897607">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="546" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1589356604787" />
+    <state width="1323" height="546" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1589440897607" />
     <state x="263" y="98" key="IDE.errors.dialog" timestamp="1588635205801">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -359,13 +340,13 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="339" y="53" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1366.728@0.0.1366.728" timestamp="1588786954597" />
-    <state x="339" y="162" key="run.anything.popup" timestamp="1589343027287">
+    <state x="339" y="162" key="run.anything.popup" timestamp="1589431717703">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="339" y="162" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1589343027287" />
-    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1589356411663">
+    <state x="339" y="162" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1589431717703" />
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1589432289073">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1589356411663" />
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1589432289073" />
   </component>
 </project>

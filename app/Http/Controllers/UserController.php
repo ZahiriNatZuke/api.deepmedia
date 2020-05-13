@@ -8,7 +8,6 @@ use App\Session;
 use App\Video;
 use Exception;
 use Firebase\JWT\JWT;
-use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\UserRequest;
 use App\User;
@@ -38,7 +37,7 @@ class UserController extends Controller
                 'sub' => Auth::id(),
                 'iat' => now()->unix(),
                 'nbf' => now()->addMillisecond()->unix(),
-                'exp' => now()->addDays(1)->unix(),
+                'exp' => now()->addDays(2)->unix(),
                 'user' => Auth::user()->channel
             );
             $encoded = JWT::encode($payload, env('APP_KEY'), 'HS512');
@@ -51,10 +50,12 @@ class UserController extends Controller
                 'exp' => now()->addDays(14)->unix(),
             ), env('APP_KEY'));
 
-            Auth::user()->session()->create([
-                'jwt_refresh' => $refresh,
-                'last_activity' => now()->toDateTime()
+            $new_session = new Session([
+                'user_id' => Auth::id(),
+                'jwt_refresh' => $refresh
             ]);
+
+            $new_session->save();
 
             return response([
                 'auth:message' => 'User Authenticated',
@@ -79,14 +80,15 @@ class UserController extends Controller
      */
     public function logout(Request $request)
     {
+        $jwt_refresh = $request->header('X-Refresh-JWT');
         try {
-            $id = Crypt::decrypt($request->header('X-Encode-ID'));
-        } catch (DecryptException $e) {
+            JWT::decode($jwt_refresh, env('APP_KEY'), array('HS256'));
+        } catch (\Exception $exception) {
             return response([
-                'message' => $e->getMessage(),
+                'message' => $exception->getMessage()
             ], 401);
         }
-        Session::query()->where('user_id', 'LIKE', $id)->delete();
+        Session::query()->where('jwt_refresh', 'LIKE', $jwt_refresh)->delete();
         Auth::logout();
         return response([
             'message' => 'User Logout Successfully'
@@ -109,10 +111,11 @@ class UserController extends Controller
                 'message' => $exception->getMessage()
             ], 401);
         }
-        $session = Session::query()->where('user_id', 'LIKE', $jwt_refresh_decoded->sub)->get()[0];
-        if ($session->jwt_refresh == $jwt_refresh)
+
+        $session = Session::query()->where('jwt_refresh', 'LIKE', $jwt_refresh)->get()[0];
+        if ($session) {
             Auth::loginUsingId($jwt_refresh_decoded->sub);
-        else {
+        } else {
             $session->delete();
             return response([
                 'message' => 'JWT Refresh Invalid, Session Closed'
@@ -123,9 +126,10 @@ class UserController extends Controller
             'sub' => Auth::id(),
             'iat' => now()->unix(),
             'nbf' => now()->addMillisecond()->unix(),
-            'exp' => now()->addDays(1)->unix(),
+            'exp' => now()->addDays(2)->unix(),
             'user' => Auth::user()->channel
         );
+
         $encoded = JWT::encode($payload, env('APP_KEY'), 'HS512');
         $decoded = JWT::decode($encoded, env('APP_KEY'), array('HS512'));
 
@@ -137,8 +141,7 @@ class UserController extends Controller
         ), env('APP_KEY'));
 
         $session->update([
-            'jwt_refresh' => $new_jwt_refresh,
-            'last_activity' => now()->toDateTime()
+            'jwt_refresh' => $new_jwt_refresh
         ]);
 
         return response([
@@ -227,10 +230,10 @@ class UserController extends Controller
     {
         Storage::deleteDirectory('public/uploads/channel-' . $user->channel->id);
         try {
+            Session::query()->where('user_id', 'LIKE', $user->id)->delete();
             Video::query()->where('channel_id', 'LIKE', $user->channel->id)->delete();
             Comment::query()->where('user_id', 'LIKE', $user->id)->delete();
             $user->channel()->delete();
-            $user->session()->delete();
             $user->record()->delete();
             $user->delete();
         } catch (Exception $e) {

@@ -18,7 +18,7 @@ class Session extends Model
      * @var array
      */
     protected $fillable = [
-        'jwt_refresh', 'last_activity'
+        'jwt_refresh', 'last_activity', 'user_id'
     ];
 
     /**

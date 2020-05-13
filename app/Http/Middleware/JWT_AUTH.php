@@ -3,7 +3,6 @@
 namespace App\Http\Middleware;
 
 use App\Record;
-use App\Session;
 use Closure;
 use Firebase\JWT\JWT;
 use Illuminate\Contracts\Encryption\DecryptException;
@@ -40,19 +39,9 @@ class JWT_AUTH
 
         Auth::loginUsingId($id);
 
-        $this->updateSession($id);
-
         $this->updateIpList($id, $request);
 
         return $next($request);
-    }
-
-    private function updateSession($id)
-    {
-        $session = Session::query()->where('user_id', 'LIKE', $id)->get()[0];
-        $session->update([
-            'last_activity' => now()->toDateTime()
-        ]);
     }
 
     private function updateIpList($id, Request $request)

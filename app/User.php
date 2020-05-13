@@ -50,9 +50,9 @@ class User extends Authenticatable
         return $this->hasOne(Record::class);
     }
 
-    public function session()
+    public function sessions()
     {
-        return $this->hasOne(Session::class);
+        return $this->hasMany(Session::class);
     }
 
     public function comments()

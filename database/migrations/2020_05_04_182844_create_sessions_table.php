@@ -15,9 +15,8 @@ class CreateSessionsTable extends Migration
     {
         Schema::create('sessions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->unique();
+            $table->unsignedBigInteger('user_id');
             $table->text('jwt_refresh');
-            $table->dateTime('last_activity');
             $table->timestamps();
             $table->index('user_id');
         });
