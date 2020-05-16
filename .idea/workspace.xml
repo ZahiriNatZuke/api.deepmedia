@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7d6689aa-2bfb-49f4-a187-76640e7478db" name="Default Changelist" comment="" />
+    <list default="true" id="7d6689aa-2bfb-49f4-a187-76640e7478db" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/profile/profile-card/profile-card.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/profile/profile-card/profile-card.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/profile/profile-card/profile-card.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/profile/profile-card/profile-card.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/profile/profile-video-card/profile-video-card.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/profile/profile-video-card/profile-video-card.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/video-card/video-card.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/video-card/video-card.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/video-card/video-card.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/video-card/video-card.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/video-form-stepper/video-form-stepper.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/modules/shared/components/video-form-stepper/video-form-stepper.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/modules/video/video-categories/video-categories.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/modules/video/video-categories/video-categories.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/modules/video/video-categories/video-categories.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/modules/video/video-categories/video-categories.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/modules/video/video-list/video-list.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/modules/video/video-list/video-list.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/modules/video/video-list/video-list.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/modules/video/video-list/video-list.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/modules/video/video-view/video-view.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/modules/video/video-view/video-view.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/modules/video/video-view/video-view.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/modules/video/video-view/video-view.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../deepmedia/src/app/services/crud.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../deepmedia/src/app/services/crud.service.ts" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -172,7 +187,7 @@
     <property name="ts.external.directory.path" value="D:\XAMPP\htdocs\deepmedia\node_modules\typescript\lib" />
     <property name="validate D:/XAMPP/htdocs/api.deepmedia/composer.json" value="--no-interaction --ansi --verbose --no-check-all --with-dependencies" />
   </component>
-  <component name="RunManager" selected="npm.Build App">
+  <component name="RunManager" selected="npm.Start Server">
     <configuration name="phpunit.xml" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
       <TestRunner scope="XML" />
       <method v="2" />
@@ -225,6 +240,9 @@
       <workItem from="1588811916985" duration="1360000" />
       <workItem from="1589080372059" duration="68538000" />
       <workItem from="1589308788359" duration="68737000" />
+      <workItem from="1589525082007" duration="35458000" />
+      <workItem from="1589610703741" duration="1161000" />
+      <workItem from="1589636726063" duration="4238000" />
     </task>
     <servers />
   </component>
@@ -264,10 +282,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="445" y="166" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1366.728@0.0.1366.728" timestamp="1588472969227" />
-    <state x="488" y="80" key="#com.intellij.ide.util.MemberChooser" timestamp="1589347946686">
+    <state x="488" y="80" key="#com.intellij.ide.util.MemberChooser" timestamp="1589586193635">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="488" y="80" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1589347946686" />
+    <state x="488" y="80" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1589586193635" />
     <state x="420" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1588455658240">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -304,22 +322,22 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="463" y="119" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1588452707016" />
-    <state width="1323" height="546" key="GridCell.Tab.0.bottom" timestamp="1589440897607">
+    <state width="1323" height="546" key="GridCell.Tab.0.bottom" timestamp="1589636934334">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="546" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1589440897607" />
-    <state width="1323" height="546" key="GridCell.Tab.0.center" timestamp="1589440897607">
+    <state width="1323" height="546" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1589636934334" />
+    <state width="1323" height="546" key="GridCell.Tab.0.center" timestamp="1589636934333">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="546" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1589440897607" />
-    <state width="1323" height="546" key="GridCell.Tab.0.left" timestamp="1589440897607">
+    <state width="1323" height="546" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1589636934333" />
+    <state width="1323" height="546" key="GridCell.Tab.0.left" timestamp="1589636934333">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="546" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1589440897607" />
-    <state width="1323" height="546" key="GridCell.Tab.0.right" timestamp="1589440897607">
+    <state width="1323" height="546" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1589636934333" />
+    <state width="1323" height="546" key="GridCell.Tab.0.right" timestamp="1589636934334">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="546" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1589440897607" />
+    <state width="1323" height="546" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1589636934334" />
     <state x="263" y="98" key="IDE.errors.dialog" timestamp="1588635205801">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -340,13 +358,13 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="339" y="53" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1366.728@0.0.1366.728" timestamp="1588786954597" />
-    <state x="339" y="162" key="run.anything.popup" timestamp="1589431717703">
+    <state x="339" y="162" key="run.anything.popup" timestamp="1589600793217">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="339" y="162" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1589431717703" />
-    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1589432289073">
+    <state x="339" y="162" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1589600793217" />
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1589605685066">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1589432289073" />
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1589605685066" />
   </component>
 </project>

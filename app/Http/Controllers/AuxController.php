@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Video;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use function foo\func;
 
 class AuxController extends Controller
 {
@@ -59,7 +60,7 @@ class AuxController extends Controller
      */
     public function favorite_user()
     {
-        $videos_id = auth()->user()->myLikes()->pluck('videos.id');
+        $videos_id = auth()->user()->channel->myFavorites()->pluck('videos.id');
         $videos = Video::query()
             ->whereIn('id', $videos_id)
             ->with('channel')
@@ -69,6 +70,62 @@ class AuxController extends Controller
         return response([
             'message' => 'Favorites Videos of User #' . Auth::id(),
             'videos' => $videos
+        ], 200);
+    }
+
+    /**
+     * Get Count Video from Categories
+     *
+     */
+    public function countVideoByCategories()
+    {
+        $countGameplay = Video::query()->where('category', 'LIKE', 'Gameplay')->count();
+        $countJoke = Video::query()->where('category', 'LIKE', 'Joke')->count();
+        $countMusical = Video::query()->where('category', 'LIKE', 'Musical')->count();
+        $countInteresting = Video::query()->where('category', 'LIKE', 'Interesting')->count();
+        $countTech = Video::query()->where('category', 'LIKE', 'Tech')->count();
+        $countTutorial = Video::query()->where('category', 'LIKE', 'Tutorial')->count();
+
+        return response([
+            'message' => 'Count Videos by Categories',
+            'categories' => [
+                'Gameplay' => [
+                    'name' => 'gameplay',
+                    'link' => 'gameplay',
+                    'img' => 'gameplay.png',
+                    'count_videos' => $countGameplay
+                ],
+                'Joke' => [
+                    'name' => 'humor',
+                    'link' => 'joke',
+                    'img' => 'joke.jpg',
+                    'count_videos' => $countJoke
+                ],
+                'Musical' => [
+                    'name' => 'musical',
+                    'link' => 'musical',
+                    'img' => 'musical.jpg',
+                    'count_videos' => $countMusical
+                ],
+                'Interesting' => [
+                    'name' => 'interesantes',
+                    'link' => 'interesting',
+                    'img' => 'interesting.jpg',
+                    'count_videos' => $countInteresting
+                ],
+                'Tech' => [
+                    'name' => 'tecnología',
+                    'link' => 'tech',
+                    'img' => 'tech.jpg',
+                    'count_videos' => $countTech
+                ],
+                'Tutorial' => [
+                    'name' => 'tutoriales',
+                    'link' => 'tutorial',
+                    'img' => 'tutorial.png',
+                    'count_videos' => $countTutorial
+                ],
+            ]
         ], 200);
     }
 

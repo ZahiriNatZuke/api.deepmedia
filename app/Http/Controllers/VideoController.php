@@ -77,8 +77,7 @@ class VideoController extends Controller
      */
     public function show(Video $video)
     {
-        $video->views_count = $video->views_count + 1;
-        $video->update();
+        $video->increment('views_count');
         $video['channel'] = $video->channel;
         $cachedVideo = Cache::remember('videos-' . $video->id, now()->addSeconds(30), function () use ($video) {
             return $video;

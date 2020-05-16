@@ -51,3 +51,5 @@ Route::post('favorite/{video}', 'AuxController@favorite')->name('favoriteVideo')
     ->middleware('jwt_auth');
 Route::get('my_favorites', 'AuxController@favorite_user')->name('favoritesByUser')
     ->middleware('jwt_auth');
+
+Route::get('count_video_by_categories', 'AuxController@countVideoByCategories')->name('countVideoByCategories');

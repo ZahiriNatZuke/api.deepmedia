@@ -22,6 +22,7 @@ class CreateVideosTable extends Migration
             $table->enum('category', ['Gameplay', 'Musical', 'Joke', 'Interesting', 'Tech', 'Tutorial']);
             $table->string('poster');
             $table->string('video');
+            $table->double('duration');
             $table->integer('views_count')->default(0);
             $table->timestamps();
             $table->index('channel_id');

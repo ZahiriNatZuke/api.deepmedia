@@ -29,7 +29,8 @@ class VideoUpdateRequest extends FormRequest
             'state' => 'nullable|string',
             'category' => 'nullable|string',
             'poster' => 'nullable|image|max:10240|file',
-            'video' => 'nullable|mimes:mkv,mp4,avi|max:307200|file'
+            'video' => 'nullable|mimes:mkv,mp4,avi|max:307200|file',
+            'duration' => 'nullable'
         ];
     }
 }
