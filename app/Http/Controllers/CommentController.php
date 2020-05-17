@@ -7,9 +7,30 @@ use App\Http\Requests\CommentRequest;
 use App\Video;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class CommentController extends Controller
 {
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param $video
+     * @return Response
+     */
+    public function index($video)
+    {
+        $comments = Comment::query()
+            ->where('video_id', 'LIKE', $video)
+            ->orderByDesc('created_at')
+            ->with('user')
+            ->get();
+        return response([
+            'message' => 'All Comments for Video #' . $video,
+            'comments' => $comments
+        ], 200);
+    }
+
     /**
      * Store a newly created resource in storage.
      *

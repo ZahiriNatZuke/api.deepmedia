@@ -25,6 +25,7 @@ Route::delete('video/{video}', 'VideoController@destroy')->name('destroyVideo')
     ->middleware(['jwt_auth', 'jwt_grant:destroy']);
 
 /*RESOURCES ROUTES FOR COMMENTS*/
+Route::get('comment/{video}', 'CommentController@index')->name('commentsByVideo');
 Route::post('comment/{video}', 'CommentController@store')->name('storeComment')
     ->middleware(['jwt_auth']);
 
@@ -38,7 +39,7 @@ Route::patch('user/{user}', 'UserController@update')->name('updateUser')
     ->middleware(['jwt_auth', 'jwt_grant:user']);
 Route::delete('user/{user}', 'UserController@destroy')->name('destroyUser')
     ->middleware(['jwt_auth', 'jwt_grant:destroy']);
-Route::get('user/jwt/refresh', 'UserController@refresh')->name('refreshJWT');
+Route::post('user/jwt/refresh', 'UserController@refresh')->name('refreshJWT');
 
 /*RESOURCES ROUTES FOR CHANNELS*/
 Route::get('channel/{channel}', 'ChannelController@show')->name('channelById');
