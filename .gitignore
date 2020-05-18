@@ -16,3 +16,7 @@ Homestead.yaml
 Homestead.json
 /.vagrant
 .phpunit.result.cache
+
+# IDEs and editors
+.idea/*
+.vscode/*

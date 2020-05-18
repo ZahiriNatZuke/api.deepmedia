@@ -15,19 +15,14 @@ class CommentController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param $video
+     * @param Video $video
      * @return Response
      */
-    public function index($video)
+    public function index(Video $video)
     {
-        $comments = Comment::query()
-            ->where('video_id', 'LIKE', $video)
-            ->orderByDesc('created_at')
-            ->with('user')
-            ->get();
         return response([
-            'message' => 'All Comments for Video #' . $video,
-            'comments' => $comments
+            'message' => 'All Comments for Video #' . $video->id,
+            'comments' => $video->comments()->with('user')->get()
         ], 200);
     }
 

@@ -54,3 +54,4 @@ Route::get('my_favorites', 'AuxController@favorite_user')->name('favoritesByUser
     ->middleware('jwt_auth');
 Route::get('count_video_by_categories', 'AuxController@countVideoByCategories')->name('countVideoByCategories');
 Route::get('top_video', 'AuxController@topVideo')->name('topVideo');
+Route::get('top_video/channel/{channel}', 'AuxController@topVideoByChannel')->name('topVideoByChannel');

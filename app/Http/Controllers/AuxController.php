@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Channel;
 use App\Video;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -155,4 +156,46 @@ class AuxController extends Controller
         ], 200);
     }
 
+    /**
+     * Get Top Video by Channel
+     *
+     * @param Channel $channel
+     * @return Response
+     */
+    public function topVideoByChannel(Channel $channel)
+    {
+        $byViews = Cache::remember('byViewsForChannel-' . $channel->id . now()->unix(), now()->addSeconds(30),
+            function () use ($channel) {
+                return Video::query()
+                    ->where('channel_id', 'LIKE', $channel->id)
+                    ->orderByDesc('views_count')
+                    ->without('comments')
+                    ->first();
+            });
+
+        $byLikes = Cache::remember('byLikesForChannel-' . $channel->id . now()->unix(), now()->addSeconds(30),
+            function () use ($channel) {
+                return Video::query()
+                    ->where('channel_id', 'LIKE', $channel->id)
+                    ->orderByDesc('likes_count')
+                    ->without('comments')
+                    ->first();
+            });
+
+        $byComments = Cache::remember('byCommentsForChannel-' . $channel->id . now()->unix(), now()->addSeconds(30),
+            function () use ($channel) {
+                return Video::query()
+                    ->where('channel_id', 'LIKE', $channel->id)
+                    ->orderByDesc('comments_count')
+                    ->without('comments')
+                    ->first();
+            });
+
+        return response([
+            'message' => 'Top Video for Channel #' . $channel->id,
+            'byViews' => $byViews,
+            'byLikes' => $byLikes,
+            'byComments' => $byComments
+        ], 200);
+    }
 }
