@@ -45,12 +45,12 @@ Route::post('user/jwt/refresh', 'UserController@refresh')->name('refreshJWT');
 Route::get('channel/{channel}', 'ChannelController@show')->name('channelById');
 Route::get('channel/stats/{channel}', 'ChannelController@stats')->name('statsByChannel');
 
-/*ROUTES OF LIKES OR FAVORITES*/
+/*AUX ROUTES*/
 Route::post('like/{video}', 'AuxController@like')->name('likeVideo')
     ->middleware('jwt_auth');
 Route::post('favorite/{video}', 'AuxController@favorite')->name('favoriteVideo')
     ->middleware('jwt_auth');
 Route::get('my_favorites', 'AuxController@favorite_user')->name('favoritesByUser')
     ->middleware('jwt_auth');
-
 Route::get('count_video_by_categories', 'AuxController@countVideoByCategories')->name('countVideoByCategories');
+Route::get('top_video', 'AuxController@topVideo')->name('topVideo');

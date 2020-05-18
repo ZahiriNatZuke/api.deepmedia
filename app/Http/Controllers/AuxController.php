@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Video;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use function foo\func;
+use Illuminate\Support\Facades\Cache;
 
 class AuxController extends Controller
 {
@@ -13,7 +13,7 @@ class AuxController extends Controller
      * Giving a like for video
      *
      * @param Video $video
-     * @return mixed
+     * @return Response
      */
     public function like(Video $video)
     {
@@ -21,12 +21,14 @@ class AuxController extends Controller
         if ($result['attached'] == []) {
             return response([
                 'message' => 'Dislike',
-                'status' => false
+                'status' => false,
+                'likes' => $video->refresh()->Likes
             ], 200);
         } else {
             return response([
                 'message' => 'Like',
-                'status' => true
+                'status' => true,
+                'likes' => $video->refresh()->Likes
             ], 200);
         }
     }
@@ -35,7 +37,7 @@ class AuxController extends Controller
      * Making a favorite video
      *
      * @param Video $video
-     * @return mixed
+     * @return Response
      */
     public function favorite(Video $video)
     {
@@ -43,12 +45,14 @@ class AuxController extends Controller
         if ($result['attached'] == []) {
             return response([
                 'message' => 'No-Favorite',
-                'status' => false
+                'status' => false,
+                'favoriteForWho' => $video->refresh()->favoriteForWho
             ], 200);
         } else {
             return response([
                 'message' => 'Favorite',
-                'status' => true
+                'status' => true,
+                'favoriteForWho' => $video->refresh()->favoriteForWho
             ], 200);
         }
     }
@@ -76,6 +80,7 @@ class AuxController extends Controller
     /**
      * Get Count Video from Categories
      *
+     * @return Response
      */
     public function countVideoByCategories()
     {
@@ -126,6 +131,27 @@ class AuxController extends Controller
                     'count_videos' => $countTutorial
                 ],
             ]
+        ], 200);
+    }
+
+    /**
+     * Get Top Video
+     *
+     * @return Response
+     */
+    public function topVideo()
+    {
+        $byViews = Cache::remember('byViews-' . now()->unix(), now()->addSeconds(30), function () {
+            return Video::query()->orderByDesc('views_count')->take(5)->without('comments')->get();
+        });
+        $byLikes = Cache::remember('byLikes-' . now()->unix(), now()->addSeconds(30), function () {
+            return Video::query()->orderByDesc('likes_count')->take(5)->without('comments')->get();
+        });
+
+        return response([
+            'message' => 'Top Videos',
+            'byViews' => $byViews,
+            'byLikes' => $byLikes
         ], 200);
     }
 

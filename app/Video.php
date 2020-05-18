@@ -4,7 +4,6 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Crypt;
 
 class Video extends Model
 {
@@ -47,7 +46,7 @@ class Video extends Model
      * @var array
      */
     protected $with = [
-        'comments', 'favoriteForWho'
+        'comments', 'favoriteForWho', 'Likes'
     ];
 
     /**
