@@ -58,3 +58,4 @@ Route::get('top_video', 'AuxController@topVideo')->name('topVideo');
 Route::get('top_video/channel/{channel}', 'AuxController@topVideoByChannel')
     ->name('topVideoByChannel');
 Route::get('playList/{video}', 'AuxController@playList')->name('playList');
+Route::get('search/{query}', 'AuxController@search')->name('search');

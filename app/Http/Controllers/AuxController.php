@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Channel;
+use App\User;
 use App\Video;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -239,4 +240,34 @@ class AuxController extends Controller
             'playlist' => $playList
         ], 200);
     }
+
+    /**
+     * Make a Query Search on DB
+     * @param $query
+     * @return Response
+     */
+    public function search($query)
+    {
+        $users = User::query()
+            ->where('fullname', 'LIKE', '%' . $query . '%')
+            ->orWhere('username', 'LIKE', '%' . $query . '%')
+            ->with('channel')
+            ->orderBy('username')
+            ->get();
+
+        $videos = Video::query()
+            ->where('title', 'LIKE', '%' . $query . '%')
+            ->orWhere('description', 'LIKE', '%' . $query . '%')
+            ->orWhere('category', 'LIKE', '%' . $query . '%')
+            ->orderBy('title')
+            ->get();
+
+        return response([
+            'message' => 'Result from Query Search',
+            'users' => $users,
+            'videos' => $videos
+        ], 200);
+
+    }
+
 }
