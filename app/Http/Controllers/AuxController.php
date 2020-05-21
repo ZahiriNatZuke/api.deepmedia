@@ -198,4 +198,45 @@ class AuxController extends Controller
             'byComments' => $byComments
         ], 200);
     }
+
+    /**
+     * Get PlayList
+     * @param Video $video
+     * @return Response
+     */
+    public function playList(Video $video)
+    {
+        $fromCategory = Video::query()
+            ->where('id', 'NOT LIKE', $video->id)
+            ->where('category', 'LIKE', $video->category)
+            ->orderByDesc('likes_count')
+            ->take(5);
+
+        $fromAll = Video::query()
+            ->where('id', 'NOT LIKE', $video->id)
+            ->orderByDesc('views_count')
+            ->take(10);
+
+        $fromChannel = Video::query()
+            ->where('id', 'NOT LIKE', $video->id)
+            ->where('channel_id', 'LIKE', $video->channel_id)
+            ->orderByDesc('created_at')
+            ->take(5);
+
+        $playList = Cache::remember('playList-' . now()->unix(), now()->addSeconds(30), function ()
+        use ($fromAll, $fromCategory, $fromChannel, $video) {
+            return Video::query()
+                ->where('id', 'NOT LIKE', $video->id)
+                ->union($fromCategory->getQuery())
+                ->union($fromAll->getQuery())
+                ->union($fromChannel->getQuery())
+                ->distinct()
+                ->orderByDesc('views_count')
+                ->get();
+        });
+        return response([
+            'message' => 'PlayList',
+            'playlist' => $playList
+        ], 200);
+    }
 }
