@@ -267,7 +267,6 @@ class AuxController extends Controller
             'users' => $users,
             'videos' => $videos
         ], 200);
-
     }
 
 }

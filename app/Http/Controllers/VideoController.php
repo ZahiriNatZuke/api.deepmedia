@@ -100,7 +100,7 @@ class VideoController extends Controller
         $views = $video->views_count;
         $comments = $video->comments()->count();
         return response([
-            'message' => 'Stats from Channel #' . $video->id,
+            'message' => 'Stats from Video #' . $video->id,
             'stats' => [
                 'likes' => $likes,
                 'views' => $views,
