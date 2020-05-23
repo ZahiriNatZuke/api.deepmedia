@@ -21,15 +21,14 @@ class VideoController extends Controller
      */
     public function index($category)
     {
-        $videos = Cache::remember('videos-' . $category, now()->addSeconds(30), function () use ($category) {
-            return Video::query()
-                ->where('category', 'LIKE', $category)
-                ->where('state', 'LIKE', 'Public')
-                ->orderByDesc('created_at')
-                ->without('comments')
-                ->with('channel')
-                ->get();
-        });
+        $videos = Video::query()
+            ->where('category', 'LIKE', $category)
+            ->where('state', 'LIKE', 'Public')
+            ->orderByDesc('created_at')
+            ->without('comments')
+            ->with('channel')
+            ->paginate(6);
+
         return response([
             'message' => 'All Videos by ' . $category,
             'category' => $category,
@@ -77,7 +76,7 @@ class VideoController extends Controller
      */
     public function show(Video $video)
     {
-        $video->increment('views_count');
+        $video->query()->increment('views_count');
         $video['channel'] = $video->channel;
         $cachedVideo = Cache::remember('videos-' . $video->id, now()->addSeconds(30), function () use ($video) {
             return $video;
