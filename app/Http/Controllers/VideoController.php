@@ -26,7 +26,6 @@ class VideoController extends Controller
             ->where('state', 'LIKE', 'Public')
             ->orderByDesc('created_at')
             ->without('comments')
-            ->with('channel')
             ->paginate(6);
 
         return response([
@@ -76,14 +75,11 @@ class VideoController extends Controller
      */
     public function show(Video $video)
     {
-        $video->query()->increment('views_count');
-        $video['channel'] = $video->channel;
-        $cachedVideo = Cache::remember('videos-' . $video->id, now()->addSeconds(30), function () use ($video) {
-            return $video;
-        });
+        Video::query()->find($video->id)->increment('views_count', 1);
+
         return response([
             'message' => 'Video Found',
-            'video' => $cachedVideo
+            'video' => $video->refresh()
         ], 200);
     }
 
@@ -95,15 +91,12 @@ class VideoController extends Controller
      */
     public function stats(Video $video)
     {
-        $likes = $video->Likes()->count();
-        $views = $video->views_count;
-        $comments = $video->comments()->count();
         return response([
             'message' => 'Stats from Video #' . $video->id,
             'stats' => [
-                'likes' => $likes,
-                'views' => $views,
-                'comments' => $comments
+                'likes' => $video->Likes()->count(),
+                'views' => $video->views_count,
+                'comments' => $video->comments()->count()
             ]
         ], 200);
     }

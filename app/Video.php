@@ -46,7 +46,7 @@ class Video extends Model
      * @var array
      */
     protected $with = [
-        'comments', 'favoriteForWho', 'Likes'
+        'comments', 'favoriteForWho', 'Likes', 'channel'
     ];
 
     /**

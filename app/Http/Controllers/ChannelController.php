@@ -71,23 +71,10 @@ class ChannelController extends Controller
      */
     public function show(Channel $channel)
     {
-        $videos = $channel->videos;
-        $likes = 0;
-        $views = 0;
-        $comments = 0;
-        foreach ($videos as $video) {
-            $likes += $video->Likes()->count();
-            $views += $video->views_count;
-            $comments += $video->comments()->count();
-        }
+        $channel['videos'] = $channel->videos()->get();
         return response([
             'message' => 'Channel Found',
-            'channel' => $channel,
-            'stats' => [
-                'likes' => $likes,
-                'views' => $views,
-                'comments' => $comments
-            ]
+            'channel' => $channel
         ]);
     }
 

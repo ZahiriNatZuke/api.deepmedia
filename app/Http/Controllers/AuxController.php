@@ -69,7 +69,6 @@ class AuxController extends Controller
         $videos_id = auth()->user()->channel->myFavorites()->pluck('videos.id');
         $videos = Video::query()
             ->whereIn('id', $videos_id)
-            ->with('channel')
             ->without('comments')
             ->latest()
             ->get();
@@ -232,7 +231,6 @@ class AuxController extends Controller
                 ->union($fromAll->getQuery())
                 ->union($fromChannel->getQuery())
                 ->distinct()
-                ->with('channel')
                 ->orderByDesc('views_count')
                 ->limit(20)
                 ->get();
