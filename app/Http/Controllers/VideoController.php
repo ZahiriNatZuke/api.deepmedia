@@ -64,7 +64,7 @@ class VideoController extends Controller
         Storage::put('public/uploads/channel-' . Auth::id() . '/video-' . $newVideo->id . '/video/', $fileVideo);
         return response([
             'message' => 'Video Stored',
-            'video' => $newVideo
+            'video' => Video::query()->find($newVideo->id)
         ], 201);
     }
 
@@ -144,7 +144,7 @@ class VideoController extends Controller
         }
         return response([
             'message' => 'Video Updated',
-            'video' => $video
+            'video' => $video->refresh()
         ], 200);
     }
 

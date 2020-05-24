@@ -24,7 +24,7 @@ class VideoUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'nullable|unique:videos|string',
+            'title' => 'nullable|string',
             'description' => 'nullable|max:255|string',
             'state' => 'nullable|string',
             'category' => 'nullable|string',

@@ -232,7 +232,9 @@ class AuxController extends Controller
                 ->union($fromAll->getQuery())
                 ->union($fromChannel->getQuery())
                 ->distinct()
+                ->with('channel')
                 ->orderByDesc('views_count')
+                ->limit(20)
                 ->get();
         });
         return response([
