@@ -6,9 +6,9 @@ use App\Http\Requests\VideoRequest;
 use App\Http\Requests\VideoUpdateRequest;
 use App\Video;
 use Exception;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
 class VideoController extends Controller
@@ -75,12 +75,24 @@ class VideoController extends Controller
      */
     public function show(Video $video)
     {
-        Video::query()->find($video->id)->increment('views_count', 1);
-
+        $video = Cache::remember('video-' . $video->id, now()->addSeconds(30), function () use ($video) {
+            return $video;
+        });
         return response([
             'message' => 'Video Found',
-            'video' => $video->refresh()
+            'video' => $video
         ], 200);
+    }
+
+    /**
+     * Make View for Video
+     * @param Video $video
+     * @return Response
+     */
+    public function makeView(Video $video)
+    {
+        Video::query()->find($video->id)->increment('views_count', 1);
+        return response(['message' => 'View Count from Video +1'], 200);
     }
 
     /**

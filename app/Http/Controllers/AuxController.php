@@ -227,6 +227,7 @@ class AuxController extends Controller
         use ($fromAll, $fromCategory, $fromChannel, $video) {
             return Video::query()
                 ->where('id', 'NOT LIKE', $video->id)
+                ->where('state', 'LIKE', 'Public')
                 ->union($fromCategory->getQuery())
                 ->union($fromAll->getQuery())
                 ->union($fromChannel->getQuery())
@@ -256,6 +257,7 @@ class AuxController extends Controller
             ->get();
 
         $videos = Video::query()
+            ->where('state', 'LIKE', 'Public')
             ->where('title', 'LIKE', '%' . $query . '%')
             ->orWhere('description', 'LIKE', '%' . $query . '%')
             ->orWhere('category', 'LIKE', '%' . $query . '%')

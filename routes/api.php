@@ -23,6 +23,7 @@ Route::patch('video/{video}', 'VideoController@update')->name('updateVideo')
     ->middleware(['jwt_auth', 'jwt_grant:video']);
 Route::delete('video/{video}', 'VideoController@destroy')->name('destroyVideo')
     ->middleware(['jwt_auth', 'jwt_grant:destroy']);
+Route::post('video/view/{video}', 'VideoController@makeView')->name('makeView');
 
 /*RESOURCES ROUTES FOR COMMENTS*/
 Route::get('comment/{video}', 'CommentController@index')->name('commentsByVideo');
