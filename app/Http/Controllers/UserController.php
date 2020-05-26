@@ -3,16 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Comment;
+use App\Http\Requests\NewPasswordRequest;
+use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Session;
+use App\User;
 use App\Video;
 use Exception;
 use Firebase\JWT\JWT;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\UserRequest;
-use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -245,4 +246,27 @@ class UserController extends Controller
             'message' => 'User Deleted'
         ], 200);
     }
+
+    /**
+     * Change the current password from a user
+     * @param NewPasswordRequest $request
+     * @return Response
+     */
+    public function newPassword(NewPasswordRequest $request)
+    {
+        $fromRequest = $request->all();
+        if (!Hash::check($fromRequest['current_password'], Auth::user()->getAuthPassword())) {
+            return response([
+                'message' => 'La Contraseña no es Correcta'
+            ], 422);
+        }
+        User::query()->find(Auth::id())->update([
+            'password' => Hash::make($fromRequest['new_password'])
+        ]);
+
+        return response([
+            'message' => 'Contraseña Actualizada'
+        ], 200);
+    }
+
 }

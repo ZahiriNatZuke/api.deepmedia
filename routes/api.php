@@ -41,6 +41,8 @@ Route::patch('user/{user}', 'UserController@update')->name('updateUser')
 Route::delete('user/{user}', 'UserController@destroy')->name('destroyUser')
     ->middleware(['jwt_auth', 'jwt_grant:destroy']);
 Route::post('user/jwt/refresh', 'UserController@refresh')->name('refreshJWT');
+Route::post('user/new_password', 'UserController@newPassword')->name('newPassword')
+    ->middleware(['jwt_auth']);
 
 /*RESOURCES ROUTES FOR CHANNELS*/
 Route::get('channel/{channel}', 'ChannelController@show')->name('channelById');
