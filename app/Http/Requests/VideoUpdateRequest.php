@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class VideoUpdateRequest extends FormRequest
 {
@@ -26,11 +27,12 @@ class VideoUpdateRequest extends FormRequest
         return [
             'title' => 'nullable|string',
             'description' => 'nullable|max:255|string',
-            'state' => 'nullable|string',
-            'category' => 'nullable|string',
+            'state' => ['nullable', 'string', Rule::in(['Public', 'Private'])],
+            'category' => ['nullable', 'string', Rule::in(['Gameplay', 'Musical', 'Joke', 'Interesting', 'Tech', 'Tutorial'])],
             'poster' => 'nullable|image|max:10240|file',
-            'video' => 'nullable|mimes:mkv,mp4,avi|max:307200|file',
-            'duration' => 'nullable'
+            'video' => 'nullable|mimetypes:video/mp4,video/avi,video/x-matroska|max:307200|file',
+            'duration' => 'nullable|numeric',
+            'type' => ['nullable', Rule::in(['video/mp4', 'video/avi', 'video/x-matroska'])]
         ];
     }
 }

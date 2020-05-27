@@ -26,7 +26,7 @@ class UserUpdateRequest extends FormRequest
         return [
             'fullname' => 'nullable|string',
             'username' => 'nullable|min:4|string',
-            'email' => 'nullable|email:rfc,strict,spoof,filter|string',
+            'email' => 'nullable|email:rfc,strict,spoof,filter',
             'avatar' => 'nullable|file|image|max:10240'
         ];
     }
