@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Channel;
 use App\User;
 use App\Video;
+use Firebase\JWT\JWT;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -268,6 +270,26 @@ class AuxController extends Controller
             'message' => 'Result from Query Search',
             'users' => $users,
             'videos' => $videos
+        ], 200);
+    }
+
+    /**
+     *Get A JWT, Temporal Access Granted
+     * @param Request $request
+     * @return Response
+     */
+    public function tempJWT(Request $request)
+    {
+        $payload = array(
+            'sub' => Auth::id(),
+            'iat' => now()->unix(),
+            'nbf' => now()->addMillisecond()->unix(),
+            'exp' => now()->addHour()->unix(),
+            'finger_print' => $request->fingerprint()
+        );
+        return response([
+            'message' => 'Temporal Access Granted',
+            'X-TEMP-JWT' => JWT::encode($payload, env('APP_KEY'), 'HS512')
         ], 200);
     }
 

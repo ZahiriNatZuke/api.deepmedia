@@ -44,6 +44,7 @@ return [
         'X-Authentication-JWT',
         'X-Refresh-JWT',
         'X-Encode-ID',
+        'X-TEMP-JWT',
         'Accept',
         'Content-Type'
     ],

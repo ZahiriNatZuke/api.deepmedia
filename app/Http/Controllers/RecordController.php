@@ -2,63 +2,52 @@
 
 namespace App\Http\Controllers;
 
-use App\Record;
+use App\User;
+use Faker\Generator as Faker;
+use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
 
 class RecordController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Store the Secret List from a User
+     * @param User $user
+     * @param Request $request
+     * @param Faker $faker
+     * @return Response
      */
-    public function index()
+    public function storeSecretList(User $user, Request $request, Faker $faker)
     {
-        //
-    }
+        $validator = Validator::make($request->all(), [
+            'secret_list' => 'required'
+        ]);
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        $jwt_temp = $request->header('X-TEMP-JWT');
+        try {
+            JWT::decode($jwt_temp, env('APP_KEY'), array('HS512'));
+        } catch (\Exception $exception) {
+            return response([
+                'message' => $exception->getMessage()
+            ], 401);
+        }
+        if (!$validator->fails())
+            $user->record()->update([
+                'reset_password' => [
+                    'secret_list' => $request->get('secret_list'),
+                    'password' => $faker->password(8, 12),
+                    'password_expired_at' => ''
+                ]
+            ]);
+        else
+            return response([
+                'message' => 'Info Corrupted',
+                'errors' => $validator->errors()
+            ], 422);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Record  $record
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Record $record)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Record  $record
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Record $record)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Record  $record
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Record $record)
-    {
-        //
+        return response([
+            'message' => 'Secret List Stored',
+        ], 200);
     }
 }

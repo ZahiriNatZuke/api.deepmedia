@@ -10,6 +10,7 @@ use App\Session;
 use App\User;
 use App\Video;
 use Exception;
+use Faker\Generator as Faker;
 use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -176,7 +177,8 @@ class UserController extends Controller
             ], 422);
         }
         return response([
-            'message' => 'User Stored'
+            'message' => 'User Stored',
+            'user_id' => $newUser->refresh()->id
         ], 201);
     }
 
@@ -269,4 +271,48 @@ class UserController extends Controller
         ], 200);
     }
 
+    /**
+     * Retrieve link for Secret List
+     * @param Request $request
+     * @param Faker $faker
+     * @return Response
+     */
+    public function secretList(Request $request, Faker $faker)
+    {
+        $jwt_temp = $request->header('X-TEMP-JWT');
+        try {
+            JWT::decode($jwt_temp, env('APP_KEY'), array('HS512'));
+        } catch (\Exception $exception) {
+            return response([
+                'message' => $exception->getMessage()
+            ], 401);
+        }
+        return response([
+            'message' => 'Secret List',
+            'secret_list' => [
+                $faker->state,
+                $faker->state,
+                $faker->country,
+                $faker->country,
+                $faker->state,
+                $faker->state,
+                $faker->country,
+                $faker->country,
+                $faker->state,
+                $faker->country
+            ]
+        ], 200);
+    }
+
+    /**
+     * Check if new User is OK
+     * @param UserRequest $request
+     * @return Response
+     */
+    public function checkNewUser(UserRequest $request)
+    {
+        return response([
+            'message' => 'Ready for Store'
+        ], 200);
+    }
 }

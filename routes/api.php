@@ -31,6 +31,8 @@ Route::post('comment/{video}', 'CommentController@store')->name('storeComment')
     ->middleware(['jwt_auth']);
 
 /*RESOURCES ROUTES FOR USERS*/
+Route::get('user/secret_list', 'UserController@secretList')->name('secretList');
+Route::post('user/check', 'UserController@checkNewUser')->name('checkNewUser');
 Route::get('user/{user}', 'UserController@show')->name('userById');
 Route::post('user/register', 'UserController@store')->name('registerUser');
 Route::post('user/login', 'UserController@authenticate')->name('authenticateUser');
@@ -62,3 +64,7 @@ Route::get('top_video/channel/{channel}', 'AuxController@topVideoByChannel')
     ->name('topVideoByChannel');
 Route::get('playList/{video}', 'AuxController@playList')->name('playList');
 Route::get('search/{query}', 'AuxController@search')->name('search');
+Route::get('jwt/temp_auth', 'AuxController@tempJWT')->name('tempJWT');
+
+/*RECORD ROUTES*/
+Route::post('record/store/secret_list/{user}', 'RecordController@storeSecretList')->name('storeSecretList');

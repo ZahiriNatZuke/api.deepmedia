@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Record;
+use App\User;
 use Closure;
 use Firebase\JWT\JWT;
 use Illuminate\Contracts\Encryption\DecryptException;
@@ -23,7 +24,7 @@ class JWT_AUTH
     {
         $jwt_auth = $request->header('X-Authentication-JWT');
         try {
-            JWT::decode($jwt_auth, env('APP_KEY'), array('HS512'));
+            $decoded = JWT::decode($jwt_auth, env('APP_KEY'), array('HS512'));
         } catch (\Exception $exception) {
             return response([
                 'message' => $exception->getMessage()
@@ -37,11 +38,17 @@ class JWT_AUTH
             ], 401);
         }
 
-        Auth::loginUsingId($id);
+        User::query()->findOrFail($decoded->user->id);
 
-        $this->updateIpList($id, $request);
-
-        return $next($request);
+        if ($id === $decoded->user->id) {
+            Auth::loginUsingId($id);
+            $this->updateIpList($id, $request);
+            return $next($request);
+        } else {
+            return response([
+                'message' => 'User Unauthorized',
+            ], 401);
+        }
     }
 
     private function updateIpList($id, Request $request)

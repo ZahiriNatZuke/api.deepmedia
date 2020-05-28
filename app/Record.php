@@ -27,7 +27,7 @@ class Record extends Model
      * @var array
      */
     protected $hidden = [
-        'reset_password', 'banished'
+        //
     ];
 
     /**
