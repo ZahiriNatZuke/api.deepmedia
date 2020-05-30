@@ -54,9 +54,8 @@ class VideoController extends Controller
             $newVideo->save();
         } catch (Exception $e) {
             return response([
-                'message' => 'ERROR!!, Video Not Stored',
-                'error:message' => $e->getMessage(),
-                'error' => $e->getCode(),
+                'message' => 'Video no Guardado',
+                'error_message' => $e->getMessage(),
             ], 422);
         }
         Storage::put('public/uploads/channel-' . Auth::id() . '/video-' . $newVideo->id . '/poster/', $filePoster);
@@ -124,14 +123,14 @@ class VideoController extends Controller
     {
         $data = $request->all();
 
-        if (request()->file('video')) {
+        if (request()->hasFile('video')) {
             Storage::delete('public/uploads/channel-' . $video->channel_id . '/video-' . $video->id . '/video/' . $video->video['name']);
             $fileVideo = request()->file('video');
             Storage::put('public/uploads/channel-' . $video->channel_id . '/video-' . $video->id . '/video/', $fileVideo);
             $data['video'] = $fileVideo->hashName();
         }
 
-        if (request()->file('poster')) {
+        if (request()->hasFile('poster')) {
             Storage::delete('public/uploads/channel-' . $video->channel_id . '/video-' . $video->id . '/poster/' . $video->poster['name']);
             $filePoster = request()->file('poster');
             Storage::put('public/uploads/channel-' . $video->channel_id . '/video-' . $video->id . '/poster/', $filePoster);
@@ -142,9 +141,8 @@ class VideoController extends Controller
             $video->update($data);
         } catch (Exception $e) {
             return response([
-                'message' => 'ERROR!!, Video Not Updated',
-                'error:message' => $e->getMessage(),
-                'error' => $e->getCode(),
+                'message' => 'Video no Actualizado',
+                'error_message' => $e->getMessage(),
             ], 422);
         }
         return response([
@@ -167,14 +165,13 @@ class VideoController extends Controller
             $video->delete();
         } catch (Exception $e) {
             return response([
-                'message' => 'ERROR!!, Video Not Deleted',
-                'error:message' => $e->getMessage(),
-                'error' => $e->getCode(),
+                'message' => 'Video no Eliminado',
+                'error_message' => $e->getMessage(),
             ], 422);
         }
         return response([
             'message' => 'Video Deleted',
-            'video-deleted' => $video
+            'video_deleted' => $video
         ], 200);
     }
 }

@@ -29,7 +29,8 @@ class RecordController extends Controller
             JWT::decode($jwt_temp, env('APP_KEY'), array('HS512'));
         } catch (\Exception $exception) {
             return response([
-                'message' => $exception->getMessage()
+                'message' => 'Petición no Autorizada',
+                'error_message' => $exception->getMessage()
             ], 401);
         }
         if (!$validator->fails())
@@ -42,12 +43,12 @@ class RecordController extends Controller
             ]);
         else
             return response([
-                'message' => 'Info Corrupted',
-                'errors' => $validator->errors()
+                'message' => 'Info Corrupta',
+                'error_message' => $validator->errors()
             ], 422);
 
         return response([
             'message' => 'Secret List Stored',
-        ], 200);
+        ], 201);
     }
 }

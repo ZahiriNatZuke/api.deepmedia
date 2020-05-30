@@ -38,7 +38,8 @@ class UserController extends Controller
             $user = User::query()->where('username', 'LIKE', $username)->with('record')->firstOrFail();
         } catch (\Exception $exception) {
             return response([
-                'message' => $exception->getMessage()
+                'message' => 'Usuario no Encontrado',
+                'error_message' => $exception->getMessage()
             ], 422);
         }
 
@@ -83,12 +84,12 @@ class UserController extends Controller
 
             } else {
                 return response([
-                    'message' => 'User Not Authenticated',
+                    'message' => 'Usuario no Autenticado',
                 ], 422);
             }
         } else {
             return response([
-                'message' => 'Password Expired',
+                'message' => 'Su Contraseña Expiró',
                 'expired_at' => $expire_time
             ], 401);
         }
@@ -107,7 +108,8 @@ class UserController extends Controller
             JWT::decode($jwt_refresh, env('APP_KEY'), array('HS256'));
         } catch (\Exception $exception) {
             return response([
-                'message' => $exception->getMessage()
+                'message' => 'Sesión Comprometida',
+                'error_message' => $exception->getMessage()
             ], 401);
         }
         Session::query()->where('jwt_refresh', 'LIKE', $jwt_refresh)->delete();
@@ -130,7 +132,8 @@ class UserController extends Controller
             $jwt_refresh_decoded = JWT::decode($jwt_refresh, env('APP_KEY'), array('HS256'));
         } catch (\Exception $exception) {
             return response([
-                'message' => $exception->getMessage()
+                'message' => 'Sesión Comprometida',
+                'error_message' => $exception->getMessage()
             ], 401);
         }
 
@@ -140,7 +143,7 @@ class UserController extends Controller
         } else {
             $session->delete();
             return response([
-                'message' => 'JWT Refresh Invalid, Session Closed'
+                'message' => 'Seguridad Comprometida, Sesión Cerrada'
             ], 401);
         }
 
@@ -191,9 +194,8 @@ class UserController extends Controller
             $newUser->save();
         } catch (Exception $e) {
             return response([
-                'message' => 'ERROR!!, User Not Stored',
-                'error:message' => $e->getMessage(),
-                'error' => $e->getCode(),
+                'message' => 'Usuario no Guardado',
+                'error_message' => $e->getMessage(),
             ], 422);
         }
         return response([
@@ -225,7 +227,7 @@ class UserController extends Controller
      */
     public function update(UserUpdateRequest $request, User $user)
     {
-        if (request()->file('avatar', null)) {
+        if (request()->hasFile('avatar')) {
             Storage::delete('public/uploads/channel-' . $user->channel->id . '/avatar/' . $user->channel->avatar['name']);
             $fileAvatar = request()->file('avatar');
             Storage::put('public/uploads/channel-' . $user->channel->id . '/avatar/', $fileAvatar);
@@ -259,9 +261,8 @@ class UserController extends Controller
             $user->delete();
         } catch (Exception $e) {
             return response([
-                'message' => 'ERROR!!, User not Deleted',
-                'error:message' => $e->getMessage(),
-                'error' => $e->getCode(),
+                'message' => 'Usuario no Eliminado',
+                'error_message' => $e->getMessage(),
             ], 422);
         }
         return response([
@@ -312,7 +313,8 @@ class UserController extends Controller
             JWT::decode($jwt_temp, env('APP_KEY'), array('HS512'));
         } catch (\Exception $exception) {
             return response([
-                'message' => $exception->getMessage()
+                'message' => 'Petición no Autorizada',
+                'error_message' => $exception->getMessage()
             ], 401);
         }
         return response([
@@ -362,7 +364,8 @@ class UserController extends Controller
 
         if ($validator->fails()) {
             return response([
-                'message' => $validator->errors()
+                'message' => 'Info Incorrecta',
+                'error_message' => $validator->errors()
             ], 422);
         } else {
             $email = $request->get('email');
@@ -371,7 +374,8 @@ class UserController extends Controller
                 $user = User::query()->where('email', 'LIKE', $email)->with('record')->firstOrFail();
             } catch (\Exception $exception) {
                 return response([
-                    'message' => $exception->getMessage()
+                    'message' => 'Usuario no Encontrado',
+                    'error_message' => $exception->getMessage()
                 ], 422);
             }
 
@@ -402,7 +406,7 @@ class UserController extends Controller
 
             } else {
                 return response([
-                    'message' => 'Info wrong, try again'
+                    'message' => 'Info Incorrecta, inténtalo otra vez'
                 ], 422);
             }
         }

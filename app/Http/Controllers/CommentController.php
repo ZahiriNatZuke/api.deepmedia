@@ -43,14 +43,13 @@ class CommentController extends Controller
             $newComment->save();
         } catch (\Exception $e) {
             return response([
-                'message' => 'ERROR!!, Comment Not Stored',
-                'error:message' => $e->getMessage(),
-                'error' => $e->getCode(),
+                'message' => 'Comentario no Guardado',
+                'error_message' => $e->getMessage(),
             ], 422);
         }
         return response([
             'message' => 'Comment Stored for Video #' . $video->id,
             'comment' => $newComment
-        ], 200);
+        ], 201);
     }
 }
