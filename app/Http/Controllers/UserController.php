@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -31,46 +32,65 @@ class UserController extends Controller
      */
     public function authenticate(Request $request)
     {
-        $credentials = $request->only('username', 'password');
+        $username = $request->get('username');
 
-        if (Auth::attempt($credentials)) {
-            Auth::login(Auth::user());
-            $payload = array(
-                'sub' => Auth::id(),
-                'iat' => now()->unix(),
-                'nbf' => now()->addMillisecond()->unix(),
-                'exp' => now()->addDays(2)->unix(),
-                'user' => Auth::user()->channel
-            );
-            $encoded = JWT::encode($payload, env('APP_KEY'), 'HS512');
-            $decoded = JWT::decode($encoded, env('APP_KEY'), array('HS512'));
-
-            $refresh = JWT::encode(array(
-                'sub' => Auth::id(),
-                'iat' => now()->unix(),
-                'nbf' => now()->addMillisecond()->unix(),
-                'exp' => now()->addDays(14)->unix(),
-            ), env('APP_KEY'));
-
-            $new_session = new Session([
-                'user_id' => Auth::id(),
-                'jwt_refresh' => $refresh
-            ]);
-
-            $new_session->save();
-
+        try {
+            $user = User::query()->where('username', 'LIKE', $username)->with('record')->firstOrFail();
+        } catch (\Exception $exception) {
             return response([
-                'auth:message' => 'User Authenticated',
-                'auth:user' => $decoded,
-                'X-Authentication-JWT' => $encoded,
-                'X-Refresh-JWT' => $refresh,
-                'X-Encode-ID' => Crypt::encrypt(Auth::id())
-            ], 200);
+                'message' => $exception->getMessage()
+            ], 422);
+        }
 
+        $expire_time = $user->record->reset_password['password_expired_at'];
+        if ((isset($expire_time) && now()->unix() <= $expire_time) || $expire_time === '') {
+
+            $credentials = $request->only('username', 'password');
+
+            if (Auth::attempt($credentials)) {
+                Auth::login(Auth::user());
+                $payload = array(
+                    'sub' => Auth::id(),
+                    'iat' => now()->unix(),
+                    'nbf' => now()->addMillisecond()->unix(),
+                    'exp' => now()->addDays(2)->unix(),
+                    'user' => Auth::user()->channel
+                );
+                $encoded = JWT::encode($payload, env('APP_KEY'), 'HS512');
+                $decoded = JWT::decode($encoded, env('APP_KEY'), array('HS512'));
+
+                $refresh = JWT::encode(array(
+                    'sub' => Auth::id(),
+                    'iat' => now()->unix(),
+                    'nbf' => now()->addMillisecond()->unix(),
+                    'exp' => now()->addDays(14)->unix(),
+                ), env('APP_KEY'));
+
+                $new_session = new Session([
+                    'user_id' => Auth::id(),
+                    'jwt_refresh' => $refresh
+                ]);
+
+                $new_session->save();
+
+                return response([
+                    'auth:message' => 'User Authenticated',
+                    'auth:user' => $decoded,
+                    'X-Authentication-JWT' => $encoded,
+                    'X-Refresh-JWT' => $refresh,
+                    'X-Encode-ID' => Crypt::encrypt(Auth::id())
+                ], 200);
+
+            } else {
+                return response([
+                    'message' => 'User Not Authenticated',
+                ], 422);
+            }
         } else {
             return response([
-                'message' => 'User Not Authenticated',
-            ], 422);
+                'message' => 'Password Expired',
+                'expired_at' => $expire_time
+            ], 401);
         }
     }
 
@@ -252,9 +272,10 @@ class UserController extends Controller
     /**
      * Change the current password from a user
      * @param NewPasswordRequest $request
+     * @param Faker $faker
      * @return Response
      */
-    public function newPassword(NewPasswordRequest $request)
+    public function newPassword(NewPasswordRequest $request, Faker $faker)
     {
         $fromRequest = $request->all();
         if (!Hash::check($fromRequest['current_password'], Auth::user()->getAuthPassword())) {
@@ -262,10 +283,17 @@ class UserController extends Controller
                 'message' => 'La Contraseña no es Correcta'
             ], 422);
         }
-        User::query()->find(Auth::id())->update([
+        $user = User::query()->findOrFail(Auth::id());
+        $user->record()->update([
+            'reset_password' => [
+                'secret_list' => $user->record->reset_password['secret_list'],
+                'password' => $faker->password(8, 12),
+                'password_expired_at' => ''
+            ]
+        ]);
+        $user->update([
             'password' => Hash::make($fromRequest['new_password'])
         ]);
-
         return response([
             'message' => 'Contraseña Actualizada'
         ], 200);
@@ -314,5 +342,70 @@ class UserController extends Controller
         return response([
             'message' => 'Ready for Store'
         ], 200);
+    }
+
+    /**
+     * Reset Password
+     * @param Request $request
+     * @param Faker $faker
+     * @return Response
+     */
+    public function resetPassword(Request $request, Faker $faker)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email:rfc,strict,spoof,filter',
+            'array_numbers' => 'required',
+            'first_word' => 'required',
+            'second_word' => 'required',
+            'third_word' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return response([
+                'message' => $validator->errors()
+            ], 422);
+        } else {
+            $email = $request->get('email');
+
+            try {
+                $user = User::query()->where('email', 'LIKE', $email)->with('record')->firstOrFail();
+            } catch (\Exception $exception) {
+                return response([
+                    'message' => $exception->getMessage()
+                ], 422);
+            }
+
+            $array_numbers = $request->get('array_numbers');
+            $secret_list = $user->record->reset_password['secret_list'];
+            if ($secret_list[$array_numbers[0]] === $request->get('first_word') &&
+                $secret_list[$array_numbers[1]] === $request->get('second_word') &&
+                $secret_list[$array_numbers[2]] === $request->get('third_word')) {
+
+                $password = $user->record->reset_password['password'];
+
+                $user->record()->update([
+                    'reset_password' => [
+                        'secret_list' => $secret_list,
+                        'password' => $faker->password(8, 12),
+                        'password_expired_at' => now()->addHour()->unix()
+                    ]
+                ]);
+
+                $user->update([
+                    'password' => Hash::make($password)
+                ]);
+
+                return response([
+                    'message' => 'Password Recovered',
+                    'new_password' => $password
+                ], 200);
+
+            } else {
+                return response([
+                    'message' => 'Info wrong, try again'
+                ], 422);
+            }
+        }
+
     }
 }

@@ -32,19 +32,20 @@ Route::post('comment/{video}', 'CommentController@store')->name('storeComment')
 
 /*RESOURCES ROUTES FOR USERS*/
 Route::get('user/secret_list', 'UserController@secretList')->name('secretList');
-Route::post('user/check', 'UserController@checkNewUser')->name('checkNewUser');
 Route::get('user/{user}', 'UserController@show')->name('userById');
+Route::post('user/check', 'UserController@checkNewUser')->name('checkNewUser');
+Route::post('user/reset_password', 'UserController@resetPassword')->name('resetPassword');
 Route::post('user/register', 'UserController@store')->name('registerUser');
 Route::post('user/login', 'UserController@authenticate')->name('authenticateUser');
 Route::post('user/logout', 'UserController@logout')->name('logoutUser')
+    ->middleware(['jwt_auth']);
+Route::post('user/new_password', 'UserController@newPassword')->name('newPassword')
     ->middleware(['jwt_auth']);
 Route::patch('user/{user}', 'UserController@update')->name('updateUser')
     ->middleware(['jwt_auth', 'jwt_grant:user']);
 Route::delete('user/{user}', 'UserController@destroy')->name('destroyUser')
     ->middleware(['jwt_auth', 'jwt_grant:destroy']);
 Route::post('user/jwt/refresh', 'UserController@refresh')->name('refreshJWT');
-Route::post('user/new_password', 'UserController@newPassword')->name('newPassword')
-    ->middleware(['jwt_auth']);
 
 /*RESOURCES ROUTES FOR CHANNELS*/
 Route::get('channel/{channel}', 'ChannelController@show')->name('channelById');
@@ -65,6 +66,7 @@ Route::get('top_video/channel/{channel}', 'AuxController@topVideoByChannel')
 Route::get('playList/{video}', 'AuxController@playList')->name('playList');
 Route::get('search/{query}', 'AuxController@search')->name('search');
 Route::get('jwt/temp_auth', 'AuxController@tempJWT')->name('tempJWT');
+Route::get('random_numbers', 'AuxController@randomNumbers')->name('randomNumbers');
 
 /*RECORD ROUTES*/
 Route::post('record/store/secret_list/{user}', 'RecordController@storeSecretList')->name('storeSecretList');
