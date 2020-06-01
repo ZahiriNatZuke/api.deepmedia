@@ -25,6 +25,7 @@ class CreateVideosTable extends Migration
             $table->double('duration');
             $table->enum('type', ['video/mp4', 'video/avi', 'video/x-matroska']);
             $table->integer('views_count')->default(0);
+            $table->integer('downloads_count')->default(0);
             $table->timestamps();
             $table->index('channel_id');
             $table->index('title');

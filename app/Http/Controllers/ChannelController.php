@@ -29,7 +29,7 @@ class ChannelController extends Controller
             'stats' => [
                 'likes' => $videos->sum('likes_count'),
                 'views' => $videos->sum('views_count'),
-                'comments' => $videos->sum('comments_count')
+                'downloads' => $videos->sum('downloads_count')
             ],
             'advanced_stats' => [
                 'likes' => [
@@ -42,10 +42,10 @@ class ChannelController extends Controller
                     'min' => $videos->min('views_count'),
                     'avg' => $videos->avg('views_count')
                 ],
-                'comments' => [
-                    'max' => $videos->max('comments_count'),
-                    'min' => $videos->min('comments_count'),
-                    'avg' => $videos->avg('comments_count')
+                'downloads' => [
+                    'max' => $videos->max('downloads_count'),
+                    'min' => $videos->min('downloads_count'),
+                    'avg' => $videos->avg('downloads_count')
                 ]
             ],
             'storage_size' => $size

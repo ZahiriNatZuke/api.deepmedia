@@ -183,6 +183,7 @@ class VideoController extends Controller
      */
     public function downloadVideo(Video $video)
     {
+        Video::query()->find($video->id)->increment('downloads_count', 1);
         $FILE = storage_path('app\\public\\uploads\\channel-' . $video->channel_id . '\\video-' . $video->id . '\\video\\' . $video->video['name']);
         return response()->download($FILE, str_replace(' ', '_', $video->title));
     }

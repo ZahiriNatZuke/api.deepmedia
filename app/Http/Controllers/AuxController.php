@@ -184,11 +184,11 @@ class AuxController extends Controller
                     ->first();
             });
 
-        $byComments = Cache::remember('byCommentsForChannel-' . $channel->id . now()->unix(), now()->addSeconds(30),
+        $byDownload = Cache::remember('byDownloadForChannel-' . $channel->id . now()->unix(), now()->addSeconds(30),
             function () use ($channel) {
                 return Video::query()
                     ->where('channel_id', 'LIKE', $channel->id)
-                    ->orderByDesc('comments_count')
+                    ->orderByDesc('downloads_count')
                     ->without('comments')
                     ->first();
             });
@@ -197,7 +197,7 @@ class AuxController extends Controller
             'message' => 'Top Video for Channel #' . $channel->id,
             'byViews' => $byViews,
             'byLikes' => $byLikes,
-            'byComments' => $byComments
+            'byDownload' => $byDownload
         ], 200);
     }
 
