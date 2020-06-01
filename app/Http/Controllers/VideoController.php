@@ -6,10 +6,11 @@ use App\Http\Requests\VideoRequest;
 use App\Http\Requests\VideoUpdateRequest;
 use App\Video;
 use Exception;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class VideoController extends Controller
 {
@@ -173,5 +174,16 @@ class VideoController extends Controller
             'message' => 'Video Deleted',
             'video_deleted' => $video
         ], 200);
+    }
+
+    /**
+     * Download Video
+     * @param Video $video
+     * @return BinaryFileResponse
+     */
+    public function downloadVideo(Video $video)
+    {
+        $FILE = storage_path('app\\public\\uploads\\channel-' . $video->channel_id . '\\video-' . $video->id . '\\video\\' . $video->video['name']);
+        return response()->download($FILE, str_replace(' ', '_', $video->title));
     }
 }
