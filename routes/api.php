@@ -18,6 +18,8 @@ Route::get('video/{video}', 'VideoController@show')->name('videoById');
 Route::get('video/{video}/download', 'VideoController@downloadVideo')->name('downloadVideo');
 Route::get('video/stats/{video}', 'VideoController@stats')->name('statsByVideo');
 Route::get('video/by/{category}', 'VideoController@index')->name('videoByCategory');
+Route::post('video/check', 'VideoController@checkNewVideo')->name('checkNewVideo')
+    ->middleware(['jwt_auth']);
 Route::post('video', 'VideoController@store')->name('storeVideo')
     ->middleware(['jwt_auth']);
 Route::patch('video/{video}', 'VideoController@update')->name('updateVideo')

@@ -15,8 +15,17 @@ class ChannelController extends Controller
      * @param Channel $channel
      * @return Response
      */
-    public function stats(Channel $channel)
+    public function stats($channel)
     {
+        try {
+            $channel = Channel::query()->findOrFail($channel);
+        } catch (\Exception $exception) {
+            return response([
+                'from' => 'Info Canal',
+                'error_message' => 'El canal solicitado no existe o no está disponible.'
+            ], 404);
+        }
+
         $videos = $channel->videos()->get();
         $allFiles = Storage::allFiles('public/uploads/channel-' . $channel->id);
         $size = 0;
@@ -25,7 +34,6 @@ class ChannelController extends Controller
         }
 
         return response([
-            'message' => 'Stats from Channel #' . $channel->id,
             'stats' => [
                 'likes' => $videos->sum('likes_count'),
                 'views' => $videos->sum('views_count'),
@@ -66,16 +74,24 @@ class ChannelController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Channel $channel
+     * @param $channel
      * @return Response
      */
-    public function show(Channel $channel)
+    public function show($channel)
     {
+        try {
+            $channel = Channel::query()->findOrFail($channel);
+        } catch (\Exception $exception) {
+            return response([
+                'from' => 'Info Canal',
+                'error_message' => 'El canal solicitado no existe o no está disponible.'
+            ], 404);
+        }
+
         $channel['videos'] = $channel->videos()->get();
         return response([
-            'message' => 'Channel Found',
             'channel' => $channel
-        ]);
+        ], 200);
     }
 
     /**

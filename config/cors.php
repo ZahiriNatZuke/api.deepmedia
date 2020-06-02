@@ -26,17 +26,7 @@ return [
         'HEAD'
     ],
 
-    'allowed_origins' => [
-        'http://api.deepmedia.dev.com',
-        'http://api.deepmedia.com',
-        'http://deepmedia.dev.com',
-        'http://deepmedia.com',
-        'http://127.0.0.1',
-        'http://127.0.0.1:4200',
-        'http://localhost',
-        'http://localhost:4200',
-        'http://10.8.125.30'
-    ],
+    'allowed_origins' => ['*'],
 
     'allowed_origins_patterns' => [],
 

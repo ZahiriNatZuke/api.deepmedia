@@ -27,26 +27,36 @@ class JWT_AUTH
             $decoded = JWT::decode($jwt_auth, env('APP_KEY'), array('HS512'));
         } catch (\Exception $exception) {
             return response([
-                'message' => $exception->getMessage()
+                'from' => 'Info Seguridad',
+                'error_message' => 'Petición no Autorizada'
             ], 401);
         }
         try {
             $id = Crypt::decrypt($request->header('X-Encode-ID'));
-        } catch (DecryptException $e) {
+        } catch (DecryptException $exception) {
             return response([
-                'message' => $e->getMessage(),
+                'from' => 'Info Seguridad',
+                'error_message' => 'Petición no Autorizada'
             ], 401);
         }
 
-        User::query()->findOrFail($decoded->user->id);
+        try {
+            User::query()->findOrFail($decoded->channel->id);
+        } catch (\Exception $exception) {
+            return response([
+                'from' => 'Info Seguridad',
+                'error_message' => 'Usuario no Autorizado'
+            ], 401);
+        }
 
-        if ($id === $decoded->user->id) {
+        if ($id === $decoded->channel->id) {
             Auth::loginUsingId($id);
             $this->updateIpList($id, $request);
             return $next($request);
         } else {
             return response([
-                'message' => 'User Unauthorized',
+                'from' => 'Info Seguridad',
+                'error_message' => 'Usuario no Autorizado'
             ], 401);
         }
     }

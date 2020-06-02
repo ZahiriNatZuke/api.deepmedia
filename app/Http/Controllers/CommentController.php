@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Comment;
-use App\Http\Requests\CommentRequest;
 use App\Video;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Validator;
 
 class CommentController extends Controller
 {
@@ -15,13 +15,21 @@ class CommentController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param Video $video
+     * @param $video
      * @return Response
      */
-    public function index(Video $video)
+    public function index($video)
     {
+        try {
+            $video = Video::query()->findOrFail($video);
+        } catch (\Exception $exception) {
+            return response([
+                'from' => 'Info Video',
+                'error_message' => 'El video solicitado no existe o no está disponible.'
+            ], 404);
+        }
+
         return response([
-            'message' => 'All Comments for Video #' . $video->id,
             'comments' => $video->comments()->with('user')->get()
         ], 200);
     }
@@ -30,25 +38,39 @@ class CommentController extends Controller
      * Store a newly created resource in storage.
      *
      * @param Video $video
-     * @param CommentRequest $request
+     * @param Request $request
      * @return Response
      */
-    public function store(Video $video, CommentRequest $request)
+    public function store($video, Request $request)
     {
-        $fromRequestComment = $request->all();
-        $newComment = new Comment($fromRequestComment);
-        $newComment->user_id = Auth::id();
-        $newComment->video_id = $video->id;
         try {
-            $newComment->save();
-        } catch (\Exception $e) {
+            $video = Video::query()->findOrFail($video);
+        } catch (\Exception $exception) {
             return response([
-                'message' => 'Comentario no Guardado',
-                'error_message' => $e->getMessage(),
+                'from' => 'Info Video',
+                'error_message' => 'El video solicitado no existe o no está disponible.'
+            ], 404);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'body' => 'required|max:150'
+        ], [], [
+            'body' => 'cuerpo del comentario'
+        ]);
+
+        if ($validator->fails()) {
+            return response([
+                'from' => 'Info Comentario',
+                'errors' => $validator->errors()->all()
             ], 422);
         }
+
+        $newComment = new Comment($request->all());
+        $newComment->user_id = Auth::id();
+        $newComment->video_id = $video->id;
+        $newComment->save();
+
         return response([
-            'message' => 'Comment Stored for Video #' . $video->id,
             'comment' => $newComment
         ], 201);
     }

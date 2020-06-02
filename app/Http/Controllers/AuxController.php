@@ -16,11 +16,20 @@ class AuxController extends Controller
     /**
      * Giving a like for video
      *
-     * @param Video $video
+     * @param $video
      * @return Response
      */
-    public function like(Video $video)
+    public function like($video)
     {
+        try {
+            $video = Video::query()->findOrFail($video);
+        } catch (\Exception $exception) {
+            return response([
+                'from' => 'Info Video',
+                'error_message' => 'El video solicitado no existe o no está disponible.'
+            ], 404);
+        }
+
         $result = auth()->user()->myLikes()->toggle($video);
         if ($result['attached'] == []) {
             return response([
@@ -43,8 +52,17 @@ class AuxController extends Controller
      * @param Video $video
      * @return Response
      */
-    public function favorite(Video $video)
+    public function favorite($video)
     {
+        try {
+            $video = Video::query()->findOrFail($video);
+        } catch (\Exception $exception) {
+            return response([
+                'from' => 'Info Video',
+                'error_message' => 'El video solicitado no existe o no está disponible.'
+            ], 404);
+        }
+
         $result = auth()->user()->channel->myFavorites()->toggle($video);
         if ($result['attached'] == []) {
             return response([
@@ -75,7 +93,6 @@ class AuxController extends Controller
             ->latest()
             ->get();
         return response([
-            'message' => 'Favorites Videos of User #' . Auth::id(),
             'videos' => $videos
         ], 200);
     }
@@ -95,7 +112,6 @@ class AuxController extends Controller
         $countTutorial = Video::query()->where('category', 'LIKE', 'Tutorial')->count();
 
         return response([
-            'message' => 'Count Videos by Categories',
             'categories' => [
                 'Gameplay' => [
                     'name' => 'gameplay',
@@ -152,7 +168,6 @@ class AuxController extends Controller
         });
 
         return response([
-            'message' => 'Top Videos',
             'byViews' => $byViews,
             'byLikes' => $byLikes
         ], 200);
@@ -161,11 +176,20 @@ class AuxController extends Controller
     /**
      * Get Top Video by Channel
      *
-     * @param Channel $channel
+     * @param $channel
      * @return Response
      */
-    public function topVideoByChannel(Channel $channel)
+    public function topVideoByChannel($channel)
     {
+        try {
+            $channel = Channel::query()->findOrFail($channel);
+        } catch (\Exception $exception) {
+            return response([
+                'from' => 'Info Canal',
+                'error_message' => 'El canal solicitado no existe o no está disponible.'
+            ], 404);
+        }
+
         $byViews = Cache::remember('byViewsForChannel-' . $channel->id . now()->unix(), now()->addSeconds(30),
             function () use ($channel) {
                 return Video::query()
@@ -194,7 +218,6 @@ class AuxController extends Controller
             });
 
         return response([
-            'message' => 'Top Video for Channel #' . $channel->id,
             'byViews' => $byViews,
             'byLikes' => $byLikes,
             'byDownload' => $byDownload
@@ -203,11 +226,20 @@ class AuxController extends Controller
 
     /**
      * Get PlayList
-     * @param Video $video
+     * @param $video
      * @return Response
      */
-    public function playList(Video $video)
+    public function playList($video)
     {
+        try {
+            $video = Video::query()->findOrFail($video);
+        } catch (\Exception $exception) {
+            return response([
+                'from' => 'Info Video',
+                'error_message' => 'El video solicitado no existe o no está disponible.'
+            ], 404);
+        }
+
         $fromCategory = Video::query()
             ->where('id', 'NOT LIKE', $video->id)
             ->where('category', 'LIKE', $video->category)
@@ -239,7 +271,6 @@ class AuxController extends Controller
                 ->get();
         });
         return response([
-            'message' => 'PlayList',
             'playlist' => $playList
         ], 200);
     }
@@ -267,7 +298,6 @@ class AuxController extends Controller
             ->get();
 
         return response([
-            'message' => 'Result from Query Search',
             'users' => $users,
             'videos' => $videos
         ], 200);
@@ -288,9 +318,10 @@ class AuxController extends Controller
             'finger_print' => $request->fingerprint()
         );
         return response([
-            'message' => 'Temporal Access Granted',
             'X-TEMP-JWT' => JWT::encode($payload, env('APP_KEY'), 'HS512')
-        ], 200);
+        ], 200)->withHeaders([
+            'X-TEMP-JWT' => JWT::encode($payload, env('APP_KEY'), 'HS512')
+        ]);
     }
 
     /**
@@ -299,7 +330,6 @@ class AuxController extends Controller
     public function randomNumbers()
     {
         return response([
-            'message' => 'Random numbers between 0-9',
             'array_numbers' => array_rand([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 3)
         ], 200);
     }
