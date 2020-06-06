@@ -66,7 +66,7 @@ class JWT_GRANT
             return response([
                 'from' => 'Info Seguridad',
                 'error_message' => 'Usuario no Autenticado'
-            ], 401);
+            ], 403);
         }
         return $next($request);
     }

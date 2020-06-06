@@ -380,7 +380,7 @@ class UserController extends Controller
             return response([
                 'from' => 'Info Seguridad',
                 'error_message' => 'Petición no Autorizada'
-            ], 401);
+            ], 403);
         }
         return response([
             'secret_list' => [
