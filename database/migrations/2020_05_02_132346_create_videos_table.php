@@ -23,7 +23,7 @@ class CreateVideosTable extends Migration
             $table->string('poster');
             $table->string('video');
             $table->double('duration');
-            $table->enum('type', ['video/mp4', 'video/avi', 'video/x-matroska']);
+            $table->enum('type', ['video/mp4']);
             $table->integer('views_count')->default(0);
             $table->integer('downloads_count')->default(0);
             $table->timestamps();

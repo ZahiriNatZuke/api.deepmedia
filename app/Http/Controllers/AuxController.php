@@ -318,9 +318,9 @@ class AuxController extends Controller
             'finger_print' => $request->fingerprint()
         );
         return response([
-            'X-TEMP-JWT' => JWT::encode($payload, env('APP_KEY'), 'HS512')
-        ], 200)->withHeaders([
-            'X-TEMP-JWT' => JWT::encode($payload, env('APP_KEY'), 'HS512')
+
+        ], 200, [
+            'X-Temp-JWT' => JWT::encode($payload, env('APP_KEY'), 'HS512')
         ]);
     }
 

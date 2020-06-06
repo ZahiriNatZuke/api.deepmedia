@@ -49,9 +49,9 @@ class VideoController extends Controller
             'state' => ['required', 'string', Rule::in(['Public', 'Private'])],
             'category' => ['required', 'string', Rule::in(['Gameplay', 'Musical', 'Joke', 'Interesting', 'Tech', 'Tutorial'])],
             'poster' => 'required|image|max:10240|file',
-            'video' => 'required|mimetypes:video/mp4,video/avi,video/x-matroska|max:307200|file',
+            'video' => 'required|mimetypes:video/mp4|max:307200|file',
             'duration' => 'required|numeric',
-            'type' => ['required', 'string', Rule::in(['video/mp4', 'video/avi', 'video/x-matroska'])]
+            'type' => ['required', 'string', Rule::in(['video/mp4'])]
         ], [], [
             'title' => 'titulo',
             'description' => 'descripción',
@@ -179,9 +179,9 @@ class VideoController extends Controller
             'state' => ['nullable', 'string', Rule::in(['Public', 'Private'])],
             'category' => ['nullable', 'string', Rule::in(['Gameplay', 'Musical', 'Joke', 'Interesting', 'Tech', 'Tutorial'])],
             'poster' => 'nullable|image|max:10240|file',
-            'video' => 'nullable|mimetypes:video/mp4,video/avi,video/x-matroska|max:307200|file',
+            'video' => 'nullable|mimetypes:video/mp4|max:307200|file',
             'duration' => 'nullable|numeric',
-            'type' => ['nullable', Rule::in(['video/mp4', 'video/avi', 'video/x-matroska'])]
+            'type' => ['nullable', Rule::in(['video/mp4'])]
         ], [], [
             'title' => 'titulo',
             'description' => 'descripción',

@@ -36,7 +36,7 @@ class RecordController extends Controller
             'secret_list' => 'lista secreta'
         ]);
 
-        $jwt_temp = $request->header('X-TEMP-JWT');
+        $jwt_temp = $request->header('X-Temp-JWT');
         try {
             JWT::decode($jwt_temp, env('APP_KEY'), array('HS512'));
         } catch (\Exception $exception) {

@@ -34,12 +34,17 @@ return [
         'X-Authentication-JWT',
         'X-Refresh-JWT',
         'X-Encode-ID',
-        'X-TEMP-JWT',
+        'X-Temp-JWT',
         'Accept',
         'Content-Type'
     ],
 
-    'exposed_headers' => [],
+    'exposed_headers' => [
+        'X-Authentication-JWT',
+        'X-Refresh-JWT',
+        'X-Encode-ID',
+        'X-Temp-JWT'
+    ],
 
     'max_age' => 0,
 

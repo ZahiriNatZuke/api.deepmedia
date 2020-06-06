@@ -75,10 +75,11 @@ class UserController extends Controller
                     'from' => 'Info Sesión',
                     'message' => 'Sesión Iniciada con Éxito',
                     'auth_user' => Auth::user()->channel,
+                ], 200, [
                     'X-Authentication-JWT' => $encoded,
                     'X-Refresh-JWT' => $refresh,
                     'X-Encode-ID' => Crypt::encrypt(Auth::id())
-                ], 200);
+                ]);
 
             } else {
                 return response([
@@ -172,10 +173,7 @@ class UserController extends Controller
         return response([
             'from' => 'Info Usuario',
             'message' => 'Sesión Recuperada',
-            'auth_user' => Auth::user()->channel,
-            'X-Authentication-JWT' => $encoded,
-            'X-Refresh-JWT' => $new_jwt_refresh,
-            'X-Encode-ID' => Crypt::encrypt(Auth::id())
+            'auth_user' => Auth::user()->channel
         ], 200)->withHeaders([
             'X-Authentication-JWT' => $encoded,
             'X-Refresh-JWT' => $new_jwt_refresh,
@@ -217,7 +215,8 @@ class UserController extends Controller
 
         return response([
             'from' => 'Info Usuario',
-            'message' => 'Su Cuenta ha sido creada'
+            'message' => 'Su Cuenta ha sido creada',
+            'user_id' => $newUser->id
         ], 201);
     }
 
@@ -374,7 +373,7 @@ class UserController extends Controller
      */
     public function secretList(Request $request, Faker $faker)
     {
-        $jwt_temp = $request->header('X-TEMP-JWT');
+        $jwt_temp = $request->header('X-Temp-JWT');
         try {
             JWT::decode($jwt_temp, env('APP_KEY'), array('HS512'));
         } catch (\Exception $exception) {
