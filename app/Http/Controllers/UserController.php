@@ -349,15 +349,17 @@ class UserController extends Controller
         }
 
         $user = User::query()->find(Auth::id());
+
+        $user->update([
+            'password' => Hash::make($request->get('new_password'))
+        ]);
+
         $user->record()->update([
             'reset_password' => [
                 'secret_list' => $user->record->reset_password['secret_list'],
                 'password' => $faker->password(8, 12),
                 'password_expired_at' => ''
             ]
-        ]);
-        $user->update([
-            'password' => Hash::make($request->get('current_password'))
         ]);
         return response([
             'from' => 'Info Usuario',
