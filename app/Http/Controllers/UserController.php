@@ -71,15 +71,26 @@ class UserController extends Controller
 
                 $new_session->save();
 
-                return response([
-                    'from' => 'Info Sesión',
-                    'message' => 'Sesión Iniciada con Éxito',
-                    'auth_user' => Auth::user()->channel,
-                ], 200, [
+                $response = new Response([], 200, [
                     'X-Authentication-JWT' => $encoded,
                     'X-Refresh-JWT' => $refresh,
                     'X-Encode-ID' => Crypt::encrypt(Auth::id())
                 ]);
+
+                if ($expire_time === '')
+                    $response->setContent([
+                        'from' => 'Info Sesión',
+                        'message' => 'Sesión Iniciada con Éxito',
+                        'auth_user' => Auth::user()->channel,
+                    ]);
+                else
+                    $response->setContent([
+                        'from' => 'Info Sesión',
+                        'message' => 'Sesión Iniciada con Éxito, su Contraseña actual solo es Válida por 1 hora, deberá cambiarla',
+                        'auth_user' => Auth::user()->channel,
+                    ]);
+
+                return $response;
 
             } else {
                 return response([
@@ -138,16 +149,16 @@ class UserController extends Controller
             ], 401);
         }
 
-        $session = Session::query()->where('jwt_refresh', 'LIKE', $jwt_refresh)->get()[0];
-        if ($session) {
-            Auth::loginUsingId($jwt_refresh_decoded->sub);
-        } else {
-            $session->delete();
+        try {
+            $session = Session::query()->where('jwt_refresh', 'LIKE', $jwt_refresh)->firstOrFail();
+        } catch (\Exception $exception) {
             return response([
                 'from' => 'Info Sesión',
-                'error_message' => 'Seguridad Comprometida, Sesión Cerrada'
+                'error_message' => 'Sesión Comprometida'
             ], 401);
         }
+
+        Auth::loginUsingId($jwt_refresh_decoded->sub);
 
         $payload = array(
             'sub' => Auth::id(),
