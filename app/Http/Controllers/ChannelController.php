@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+const SIZE_LIMIT = 5368709120;
+
 use App\Channel;
+use App\Video;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
@@ -61,17 +64,6 @@ class ChannelController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param $channel
@@ -95,25 +87,96 @@ class ChannelController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
+     * Get Storage Size from Channel
+     * @param $channel
      * @param Request $request
-     * @param Channel $channel
      * @return Response
      */
-    public function update(Request $request, Channel $channel)
+    public function storageSizeFromChannel($channel, Request $request)
     {
-        //
+        try {
+            $channel = Channel::query()->findOrFail($channel);
+        } catch (\Exception $exception) {
+            return response([
+                'from' => 'Info Canal',
+                'error_message' => 'El canal solicitado no existe o no está disponible.'
+            ], 404);
+        }
+
+
+        if ($request->has('video_size'))
+            $video_size = $request->get('video_size');
+        else
+            return response([
+                'from' => 'Info Video',
+                'error_message' => 'Datos Incompletos'
+            ], 422);
+
+        settype($video_size, 'int');
+        $allFiles = Storage::allFiles('public/uploads/channel-' . $channel->id);
+
+        return response([
+            'storage_size_available' => SIZE_LIMIT - $this->storageSize($allFiles),
+            'can_store' => $this->storageSize($allFiles) + $video_size <= SIZE_LIMIT
+        ], 200);
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param Channel $channel
+     * Get Storage Size from Channel
+     * @param $channel
+     * @param $video
+     * @param Request $request
      * @return Response
      */
-    public function destroy(Channel $channel)
+    public function canStoreNewVideo($channel, $video, Request $request)
     {
-        //
+        try {
+            $channel = Channel::query()->findOrFail($channel);
+        } catch (\Exception $exception) {
+            return response([
+                'from' => 'Info Canal',
+                'error_message' => 'El canal solicitado no existe o no está disponible.'
+            ], 404);
+        }
+
+        try {
+            $video = Video::query()->findOrFail($video);
+        } catch (\Exception $exception) {
+            return response([
+                'from' => 'Info Video',
+                'error_message' => 'El video solicitado no existe o no está disponible.'
+            ], 404);
+        }
+
+        if ($request->has('video_size'))
+            $video_size = $request->get('video_size');
+        else
+            return response([
+                'from' => 'Info Video',
+                'error_message' => 'Datos Incompletos'
+            ], 422);
+
+        settype($video_size, 'int');
+        $allFiles = Storage::allFiles('public/uploads/channel-' . $channel->id);
+
+        return response([
+            'storage_size_available' => SIZE_LIMIT - $this->storageSize($allFiles),
+            'can_store' => ($this->storageSize($allFiles) - Storage::size('public/' . $video->video['path'])) + $video_size <= SIZE_LIMIT,
+        ], 200);
     }
+
+    /**
+     * Get Storage Size
+     * @param array $allFiles
+     * @return int
+     */
+    public function storageSize(array $allFiles): int
+    {
+        $size = 0;
+        foreach ($allFiles as $file) {
+            $size += Storage::size($file);
+        }
+        return $size;
+    }
+
 }

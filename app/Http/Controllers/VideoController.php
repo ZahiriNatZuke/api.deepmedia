@@ -262,7 +262,7 @@ class VideoController extends Controller
         }
 
         $video->increment('downloads_count', 1);
-        $FILE = storage_path('app\\public\\uploads\\channel-' . $video->channel_id . '\\video-' . $video->id . '\\video\\' . $video->video['name']);
+        $FILE = storage_path('app\\public\\' . str_replace('/', '\\', $video->video['path']));
         return response()->download($FILE, str_replace(' ', '_', $video->title));
     }
 

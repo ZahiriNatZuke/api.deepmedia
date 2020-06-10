@@ -53,6 +53,8 @@ Route::post('user/jwt/refresh', 'UserController@refresh')->name('refreshJWT');
 /*RESOURCES ROUTES FOR CHANNELS*/
 Route::get('channel/{channel}', 'ChannelController@show')->name('channelById');
 Route::get('channel/stats/{channel}', 'ChannelController@stats')->name('statsByChannel');
+Route::post('channel/storage/{channel}', 'ChannelController@storageSizeFromChannel')->name('storageSizeFromChannel');
+Route::post('channel/store/{channel}/{video}', 'ChannelController@canStoreNewVideo')->name('canStoreNewVideo');
 
 /*AUX ROUTES*/
 Route::post('like/{video}', 'AuxController@like')->name('likeVideo')
