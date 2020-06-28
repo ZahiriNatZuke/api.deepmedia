@@ -39,6 +39,7 @@ class JWT_GRANT
                                 'error_message' => 'Acción no Autorizada'
                             ], 403);
                         break;
+
                     case 'user':
                         try {
                             $user_id = User::query()->findOrFail($request->route()->parameter($parameter))->id;
@@ -54,6 +55,7 @@ class JWT_GRANT
                                 'error_message' => 'Acción no Autorizada'
                             ], 403);
                         break;
+
                     default:
                         return response([
                             'from' => 'Info Seguridad',

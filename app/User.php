@@ -40,26 +40,6 @@ class User extends Authenticatable
         'updated_at' => 'datetime'
     ];
 
-    public function channel()
-    {
-        return $this->hasOne(Channel::class);
-    }
-
-    public function record()
-    {
-        return $this->hasOne(Record::class);
-    }
-
-    public function sessions()
-    {
-        return $this->hasMany(Session::class);
-    }
-
-    public function comments()
-    {
-        return $this->hasMany(Comment::class);
-    }
-
     protected static function boot()
     {
         parent::boot();
@@ -82,9 +62,39 @@ class User extends Authenticatable
         });
     }
 
+    public function channel()
+    {
+        return $this->hasOne(Channel::class);
+    }
+
+    public function record()
+    {
+        return $this->hasOne(Record::class);
+    }
+
+    public function sessions()
+    {
+        return $this->hasMany(Session::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     public function myLikes()
     {
         return $this->belongsToMany(Video::class);
+    }
+
+    public function bugs()
+    {
+        return $this->hasMany(Bug::class);
+    }
+
+    public function suggestions()
+    {
+        return $this->hasMany(Suggestion::class);
     }
 
 }

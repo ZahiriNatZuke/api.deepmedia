@@ -61,7 +61,7 @@ class UserController extends Controller
                     'sub' => Auth::id(),
                     'iat' => now()->unix(),
                     'nbf' => now()->addMillisecond()->unix(),
-                    'exp' => now()->addDays(14)->unix(),
+                    'exp' => now()->addDays(14)->unix()
                 ), env('APP_KEY'));
 
                 $new_session = new Session([
@@ -77,17 +77,20 @@ class UserController extends Controller
                     'X-Encode-ID' => Crypt::encrypt(Auth::id())
                 ]);
 
+                $auth_user = Auth::user()->channel;
+                $auth_user->user['role'] = Auth::user()->record->role;
+
                 if ($expire_time === '')
                     $response->setContent([
                         'from' => 'Info Sesión',
                         'message' => 'Sesión Iniciada con Éxito',
-                        'auth_user' => Auth::user()->channel,
+                        'auth_user' => $auth_user
                     ]);
                 else
                     $response->setContent([
                         'from' => 'Info Sesión',
                         'message' => 'Sesión Iniciada con Éxito, su Contraseña actual solo es Válida por 1 hora, deberá cambiarla',
-                        'auth_user' => Auth::user()->channel,
+                        'auth_user' => $auth_user
                     ]);
 
                 return $response;
@@ -174,17 +177,20 @@ class UserController extends Controller
             'sub' => Auth::id(),
             'iat' => now()->unix(),
             'nbf' => now()->addMillisecond()->unix(),
-            'exp' => now()->addDays(14)->unix(),
+            'exp' => now()->addDays(14)->unix()
         ), env('APP_KEY'));
 
         $session->update([
             'jwt_refresh' => $new_jwt_refresh
         ]);
 
+        $auth_user = Auth::user()->channel;
+        $auth_user->user['role'] = Auth::user()->record->role;
+
         return response([
             'from' => 'Info Usuario',
             'message' => 'Sesión Recuperada',
-            'auth_user' => Auth::user()->channel
+            'auth_user' => $auth_user
         ], 200)->withHeaders([
             'X-Authentication-JWT' => $encoded,
             'X-Refresh-JWT' => $new_jwt_refresh,

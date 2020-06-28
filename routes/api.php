@@ -53,8 +53,10 @@ Route::post('user/jwt/refresh', 'UserController@refresh')->name('refreshJWT');
 /*RESOURCES ROUTES FOR CHANNELS*/
 Route::get('channel/{channel}', 'ChannelController@show')->name('channelById');
 Route::get('channel/stats/{channel}', 'ChannelController@stats')->name('statsByChannel');
-Route::post('channel/storage/{channel}', 'ChannelController@storageSizeFromChannel')->name('storageSizeFromChannel');
-Route::post('channel/store/{channel}/{video}', 'ChannelController@canStoreNewVideo')->name('canStoreNewVideo');
+Route::post('channel/storage/{channel}', 'ChannelController@storageSizeFromChannel')
+    ->name('storageSizeFromChannel');
+Route::post('channel/store/{channel}/{video}', 'ChannelController@canStoreNewVideo')
+    ->name('canStoreNewVideo');
 
 /*AUX ROUTES*/
 Route::post('like/{video}', 'AuxController@like')->name('likeVideo')
@@ -74,4 +76,14 @@ Route::get('jwt/temp_auth', 'AuxController@tempJWT')->name('tempJWT');
 Route::get('random_numbers', 'AuxController@randomNumbers')->name('randomNumbers');
 
 /*RECORD ROUTES*/
-Route::post('record/store/secret_list/{user}', 'RecordController@storeSecretList')->name('storeSecretList');
+Route::post('record/store/secret_list/{user}', 'RecordController@storeSecretList')
+    ->name('storeSecretList');
+
+Route::prefix('bot')->middleware('jwt_auth')->group(function () {
+    Route::post('/bug', 'BotController@storeBug')->name('storeBug');
+    Route::get('/bug', 'BotController@findLastBug')->name('findLastBug')
+        ->middleware('jwt_grant:bot');
+    Route::post('/sugg', 'BotController@storeSuggestion')->name('storeSuggestion');
+    Route::get('/sugg', 'BotController@findLastSuggestion')->name('findLastSuggestion')
+        ->middleware('jwt_grant:bot');
+});
