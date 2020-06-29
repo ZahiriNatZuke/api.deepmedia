@@ -78,7 +78,7 @@ class BotController extends Controller
     public function findLastBug()
     {
         return response([
-            'data' => Bug::query()->orderByDesc('created_at')->limit(1)->get()[0]
+            'data' => Bug::query()->orderByDesc('created_at')->limit(1)->get()[0] ?? null
         ], 202);
     }
 
@@ -89,7 +89,7 @@ class BotController extends Controller
     public function findLastSuggestion()
     {
         return response([
-            'data' => Suggestion::query()->orderByDesc('created_at')->limit(1)->get()[0]
+            'data' => Suggestion::query()->orderByDesc('created_at')->limit(1)->get()[0] ?? null
         ], 202);
     }
 }
