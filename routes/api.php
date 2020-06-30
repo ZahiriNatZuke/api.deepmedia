@@ -86,4 +86,6 @@ Route::prefix('bot')->middleware('jwt_auth')->group(function () {
     Route::post('/sugg', 'BotController@storeSuggestion')->name('storeSuggestion');
     Route::get('/sugg', 'BotController@findLastSuggestion')->name('findLastSuggestion')
         ->middleware('jwt_grant:bot');
+    Route::post('/grant', 'BotController@grantPermissionsToUser')->name('grantPermissionsToUser')
+        ->middleware('jwt_grant:bot');
 });
