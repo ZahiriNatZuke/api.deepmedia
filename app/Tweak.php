@@ -5,11 +5,11 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class Ban extends Model
+class Tweak extends Model
 {
     use Notifiable;
 
-    protected $table = 'bans';
+    protected $table = 'tweaks';
     protected $primaryKey = 'id';
 
     /**
@@ -18,7 +18,7 @@ class Ban extends Model
      * @var array
      */
     protected $fillable = [
-        'ip_list'
+        'option', 'value'
     ];
 
     /**
@@ -27,7 +27,7 @@ class Ban extends Model
      * @var array
      */
     protected $hidden = [
-        //
+        'id'
     ];
 
     /**
@@ -38,11 +38,6 @@ class Ban extends Model
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
-        'ip_list' => 'json'
+        'value' => 'array'
     ];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
 }

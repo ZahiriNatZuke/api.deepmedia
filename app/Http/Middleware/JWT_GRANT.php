@@ -21,8 +21,7 @@ class JWT_GRANT
     public function handle($request, Closure $next, $parameter)
     {
         if (Auth::check()) {
-            $record = Auth::user()->record;
-            if ($record->role == 'ROLE_USER') {
+            if (!Auth::user()->record->isAdmin()) {
                 switch ($parameter) {
                     case 'video':
                         try {

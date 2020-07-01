@@ -74,6 +74,9 @@ Route::get('playList/{video}', 'AuxController@playList')->name('playList');
 Route::get('search/{query}', 'AuxController@search')->name('search');
 Route::get('jwt/temp_auth', 'AuxController@tempJWT')->name('tempJWT');
 Route::get('random_numbers', 'AuxController@randomNumbers')->name('randomNumbers');
+Route::post('request_ban', function () {
+    return response([], 202);
+});
 
 /*RECORD ROUTES*/
 Route::post('record/store/secret_list/{user}', 'RecordController@storeSecretList')
@@ -87,5 +90,11 @@ Route::prefix('bot')->middleware('jwt_auth')->group(function () {
     Route::get('/sugg', 'BotController@findLastSuggestion')->name('findLastSuggestion')
         ->middleware('jwt_grant:bot');
     Route::post('/grant', 'BotController@grantPermissionsToUser')->name('grantPermissionsToUser')
+        ->middleware('jwt_grant:bot');
+    Route::post('/ban/add', 'BotController@revokeAccessToUser')->name('revokeAccessToUser')
+        ->middleware('jwt_grant:bot');
+    Route::post('/ban/revoke', 'BotController@grantAccessToUser')->name('grantAccessToUser')
+        ->middleware('jwt_grant:bot');
+    Route::post('/ban/check', 'BotController@checkBanFromUser')->name('checkBanFromUser')
         ->middleware('jwt_grant:bot');
 });

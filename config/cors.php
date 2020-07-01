@@ -35,6 +35,7 @@ return [
         'X-Refresh-JWT',
         'X-Encode-ID',
         'X-Temp-JWT',
+        'X-Banished',
         'Accept',
         'Content-Type'
     ],
@@ -43,7 +44,8 @@ return [
         'X-Authentication-JWT',
         'X-Refresh-JWT',
         'X-Encode-ID',
-        'X-Temp-JWT'
+        'X-Temp-JWT',
+        'X-Banished'
     ],
 
     'max_age' => 0,
