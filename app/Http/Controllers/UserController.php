@@ -335,10 +335,7 @@ class UserController extends Controller
         $user->record()->delete();
         $user->delete();
 
-        return response([
-            'from' => 'Info Usuario',
-            'message' => 'Usuario Eliminado con Éxito'
-        ], 200);
+        return response([], 200);
     }
 
     /**
