@@ -50,8 +50,8 @@ class SEC_GLOBAL
                 ], 401);
             }
 
-            if (in_array($user->id, $black_list_user, true))
-                return $this->checkUserForBan($user, $black_list_ip, $ip_client);
+            if (in_array($user->id, $black_list_user, true) || $user->record->banished['status'] === true)
+                return $this->confirmUserForBan($user, $black_list_ip, $ip_client);
             else
                 $can_from_user = true;
         } else {
@@ -77,8 +77,8 @@ class SEC_GLOBAL
                 ], 401);
             }
 
-            if (in_array($user->id, $black_list_user, true))
-                return $this->checkUserForBan($user, $black_list_ip, $ip_client);
+            if (in_array($user->id, $black_list_user, true) || $user->record->banished['status'] === true)
+                return $this->confirmUserForBan($user, $black_list_ip, $ip_client);
             else
                 $can_from_user = true;
 
@@ -185,7 +185,7 @@ class SEC_GLOBAL
      * @param $ip_client
      * @return ResponseFactory|Response
      */
-    public function checkUserForBan($user, $black_list_ip, $ip_client)
+    public function confirmUserForBan($user, $black_list_ip, $ip_client)
     {
         foreach ($user->record->ip_list as $ip) {
             if (!in_array($ip, $black_list_ip, true))
