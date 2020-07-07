@@ -209,7 +209,7 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'fullname' => 'required|string',
             'username' => 'required|unique:users|min:4|string',
-            'email' => 'required|email:rfc,strict,spoof,filter|unique:users',
+            'email' => 'required|email:rfc,strict,filter|unique:users',
             'password' => 'required|min:8|confirmed'
         ], [], [
             'fullname' => 'nombre completo',
@@ -424,7 +424,7 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'fullname' => 'required|string',
             'username' => 'required|unique:users|min:4|string',
-            'email' => 'required|email:rfc,strict,spoof,filter|unique:users',
+            'email' => 'required|email:rfc,strict,filter|unique:users',
             'password' => 'required|min:8|confirmed'
         ], [], [
             'fullname' => 'nombre completo',

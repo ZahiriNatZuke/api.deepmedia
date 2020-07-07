@@ -144,7 +144,7 @@ class BotController extends Controller
         $validator = Validator::make($request->all(), [
             'user' => 'required|min:4|string|exists:users,username',
             'why' => 'required|string|max:150',
-            'days' => 'required|digits:1,2'
+            'days' => 'required|numeric'
         ], [], [
             'user' => 'usuario',
             'why' => 'por qué',
