@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Channel_Video;
+use App\Comment;
+use App\User_Video;
 use App\Video;
 use Exception;
 use Illuminate\Http\Request;
@@ -240,7 +243,10 @@ class VideoController extends Controller
         }
 
         Storage::deleteDirectory('public/uploads/channel-' . $video->channel->id . '/video-' . $video->id);
-        $video->delete();
+        Channel_Video::query()->where('video_id', 'LIKE', $video->id)->sharedLock()->delete();
+        User_Video::query()->where('video_id', 'LIKE', $video->id)->sharedLock()->delete();
+        Comment::query()->where('video_id', 'LIKE', $video->id)->sharedLock()->delete();
+        $video->sharedLock()->delete();
 
         return response([], 200);
     }

@@ -82,6 +82,7 @@ Route::post('request_ban', function () {
 Route::post('record/store/secret_list/{user}', 'RecordController@storeSecretList')
     ->name('storeSecretList');
 
+/*BOT ROUTES*/
 Route::prefix('bot')->middleware('jwt_auth')->group(function () {
     Route::post('/bug', 'BotController@storeBug')->name('storeBug');
     Route::get('/bug', 'BotController@findLastBug')->name('findLastBug')

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Channel_Video;
 use App\Comment;
 use App\Session;
 use App\User;
+use App\User_Video;
 use App\Video;
 use Exception;
 use Faker\Generator as Faker;
@@ -331,8 +333,10 @@ class UserController extends Controller
         Session::query()->where('user_id', 'LIKE', $user->id)->sharedLock()->delete();
         Video::query()->where('channel_id', 'LIKE', $user->channel->id)->sharedLock()->delete();
         Comment::query()->where('user_id', 'LIKE', $user->id)->sharedLock()->delete();
-        $user->channel()->delete();
-        $user->record()->delete();
+        Channel_Video::query()->where('channel_id', 'LIKE', $user->id)->sharedLock()->delete();
+        User_Video::query()->where('user_id', 'LIKE', $user->id)->sharedLock()->delete();
+        $user->channel->delete();
+        $user->record->delete();
         $user->delete();
 
         return response([], 200);
