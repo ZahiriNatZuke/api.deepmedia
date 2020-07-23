@@ -281,7 +281,7 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'fullname' => 'nullable|string',
             'username' => ['nullable', 'min:4', 'string', Rule::unique('users')->ignore($user->id)],
-            'email' => ['nullable', 'email:rfc,strict,spoof,filter', Rule::unique('users')->ignore($user->id)],
+            'email' => ['nullable', 'email:rfc,strict,filter', Rule::unique('users')->ignore($user->id)],
             'avatar' => 'nullable|file|image|max:10240'
         ], [], [
             'fullname' => 'nombre completo',
@@ -457,7 +457,7 @@ class UserController extends Controller
     public function resetPassword(Request $request, Faker $faker)
     {
         $validator = Validator::make($request->all(), [
-            'email' => 'required|email:rfc,strict,spoof,filter|exists:users',
+            'email' => 'required|email:rfc,strict,filter|exists:users',
             'array_numbers' => 'required',
             'first_word' => 'required',
             'second_word' => 'required',
